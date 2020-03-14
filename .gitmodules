@@ -1,3 +1,6 @@
 [submodule "assets/icons"]
 	path = assets/icons
 	url = https://github.com/game-icons/icons
+[submodule "assets/game-icons-inverted"]
+	path = assets/game-icons-inverted
+	url = https://github.com/delacannon/game-icons-inverted
