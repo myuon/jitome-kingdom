@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { HomeScene } from "./scenes/home";
 
 export class Game extends Phaser.Game {}
 
@@ -8,6 +9,7 @@ window.addEventListener("load", () => {
     width: 800,
     height: 600,
     type: Phaser.AUTO,
-    parent: "game"
+    parent: "game",
+    scene: HomeScene
   });
 });

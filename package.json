@@ -45,6 +45,7 @@
     ]
   },
   "dependencies": {
-    "phaser": "^3.22.0"
+    "phaser": "^3.22.0",
+    "react-icons": "^3.9.0"
   }
 }
