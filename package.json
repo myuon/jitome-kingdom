@@ -1,0 +1,50 @@
+{
+  "name": "jitome-kingdom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:myuon/jitome-kingdom.git",
+  "author": "myuon <ioi.joi.koi.loi@gmail.com>",
+  "license": "No License",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.23.0",
+    "@typescript-eslint/parser": "^2.23.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "expose-loader": "^0.7.5",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "scripts": {
+    "dev": "webpack --mode development && webpack-dev-server --mode development",
+    "build": "webpack --mode production && webpack-dev-server --mode production",
+    "typecheck": "tsc --project tsconfig.json #",
+    "lint:ts": "eslint ./src/**/*.ts --cache",
+    "lint:fix:ts": "yarn lint:ts --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "yarn typecheck",
+      "yarn lint:fix:ts"
+    ]
+  },
+  "dependencies": {
+    "phaser": "^3.22.0"
+  }
+}
