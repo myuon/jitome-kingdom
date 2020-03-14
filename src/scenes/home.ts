@@ -15,9 +15,16 @@ export class HomeScene extends Phaser.Scene {
   }
 
   create() {
+    this.add.circle(200, 500, 80, 0xffffff);
     const sprite = this.add
-      .sprite(400, 500, "open-treasure-chest")
+      .sprite(200, 500, "open-treasure-chest")
       .setInteractive();
+    this.add.text(165, 570, "ガチャ", {
+      fontSize: "18px",
+      fontStyle: "bold",
+      fill: "#fff"
+    });
+
     sprite.on("pointerdown", () => {
       console.log("foo");
     });
