@@ -1,8 +1,6 @@
 import Phaser from "phaser";
 
 export class HomeScene extends Phaser.Scene {
-  private sprite: Phaser.GameObjects.Sprite | null = null;
-
   constructor() {
     super({
       key: "HomeScene"
@@ -17,6 +15,15 @@ export class HomeScene extends Phaser.Scene {
   }
 
   create() {
-    this.sprite = this.add.sprite(400, 500, "open-treasure-chest");
+    const sprite = this.add
+      .sprite(400, 500, "open-treasure-chest")
+      .setInteractive();
+    sprite.on("pointerdown", () => {
+      console.log("foo");
+    });
+
+    this.input.on("pointerup", () => {
+      this.scene.start("LootBoxScene");
+    });
   }
 }
