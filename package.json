@@ -6,6 +6,7 @@
   "author": "myuon <ioi.joi.koi.loi@gmail.com>",
   "license": "No License",
   "devDependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.27",
     "@types/node": "^13.9.1",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
@@ -45,9 +46,13 @@
     ]
   },
   "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "emotion-theming": "^10.0.27",
     "next": "^9.3.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "react-icons": "^3.9.0"
+    "ress": "^2.0.4"
   }
 }
