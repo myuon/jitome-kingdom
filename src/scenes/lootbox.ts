@@ -17,7 +17,7 @@ export class LootBoxScene extends Phaser.Scene {
 
   create() {
     const goBack = CircleIcon(this, {
-      label: "戻る",
+      label: "Back",
       image: "return-arrow",
       x: 100,
       y: 100

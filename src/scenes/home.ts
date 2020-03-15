@@ -17,7 +17,7 @@ export class HomeScene extends Phaser.Scene {
 
   create() {
     const gacha = CircleIcon(this, {
-      label: "ガチャ",
+      label: "Gacha",
       image: "open-treasure-chest",
       x: 200,
       y: 500

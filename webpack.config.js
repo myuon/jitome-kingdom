@@ -5,12 +5,18 @@ module.exports = {
   entry: "./src/main.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js"
+    filename: "bundle.js",
+    publicPath: path.resolve(__dirname, "dist")
   },
   module: {
     rules: [
       { test: /\.ts$/, loader: "ts-loader", exclude: "/node_modules/" },
-      { test: /phaser\.js$/, loader: "expose-loader?Phaser" }
+      { test: /phaser\.js$/, loader: "expose-loader?Phaser" },
+      {
+        test: /\.(woff|woff2|otf|tff|eot)$/,
+        loader: "url-loader?limit=100000&name=./fonts/[name].[ext]"
+      },
+      { test: /\.css$/, use: ["style-loader", "css-loader"] }
     ]
   },
   devServer: {
@@ -23,7 +29,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js"],
     alias: {
-      phaser,
+      phaser
     }
   }
 };
