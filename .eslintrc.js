@@ -4,6 +4,7 @@ module.exports = {
     es6: true
   },
   extends: [
+    'plugin:react/recommended',
     'standard',
     'plugin:prettier/recommended',
   ],
@@ -20,12 +21,15 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
+    'react',
     '@typescript-eslint',
   ],
   rules: {
+    'react/prop-types': 'off',
     'no-unused-vars': 0,
     '@typescript-eslint/no-unused-vars': [
       2, { args: 'none' }
     ],
+    'react/self-closing-comp': 2
   },
 }
