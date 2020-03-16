@@ -2,7 +2,7 @@ import "ress";
 import React from "react";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
-import { Theme } from "../components/Theme";
+import { Theme } from "../src/components/Theme";
 
 const theme: Theme = {
   palette: {

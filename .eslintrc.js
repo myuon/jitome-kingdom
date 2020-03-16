@@ -4,9 +4,10 @@ module.exports = {
     es6: true
   },
   extends: [
-    'plugin:react/recommended',
     'standard',
+    'plugin:react/recommended',
     'plugin:prettier/recommended',
+    'prettier/@typescript-eslint'
   ],
   globals: {
     Atomics: 'readonly',
@@ -21,8 +22,8 @@ module.exports = {
     sourceType: 'module'
   },
   plugins: [
-    'react',
     '@typescript-eslint',
+    'react-hooks',
   ],
   rules: {
     'react/prop-types': 'off',
@@ -30,6 +31,8 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [
       2, { args: 'none' }
     ],
-    'react/self-closing-comp': 2
-  },
+    'react/self-closing-comp': 2,
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn'
+  }
 }
