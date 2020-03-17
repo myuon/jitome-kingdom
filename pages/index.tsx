@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Typography, Toolbar, Button, AppBar } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useAuth } from "../src/hooks/useAuth";
+import { useRouter } from "next/router";
 
 const Index: React.FC = props => {
   const { isAuthenticated, loading, loginWithRedirect } = useAuth();
+  const router = useRouter();
+  const tryLogin = useCallback(async () => {
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    }
+
+    await loginWithRedirect();
+    router.push("/dashboard");
+  }, [isAuthenticated, loginWithRedirect, router]);
 
   return (
     <React.Fragment>
@@ -35,11 +45,7 @@ const Index: React.FC = props => {
             justify-content: center;
           `}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={loginWithRedirect}
-          >
+          <Button variant="contained" color="primary" onClick={tryLogin}>
             ログインしてスタート
           </Button>
         </div>
