@@ -30,6 +30,7 @@ export const useAuth = () => {
   const [user, setUser] = useState<any>();
   const [forceUpdate, setForceUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [authToken, setAuthToken] = useState<string>();
 
   useEffect(() => {
     const fetcher = async () => {
@@ -37,6 +38,7 @@ export const useAuth = () => {
       if (token && TokenStorageApi.verifyToken(token)) {
         setIsAuthenticated(true);
         setUser(UserStorageApi.getUser());
+        setAuthToken(token);
         return;
       }
 
@@ -57,7 +59,9 @@ export const useAuth = () => {
       setIsAuthenticated(await client.isAuthenticated());
       setUser(await client.getUser());
 
-      TokenStorageApi.setToken(await client.getTokenSilently());
+      const currentToken = await client.getTokenSilently();
+      setAuthToken(currentToken);
+      TokenStorageApi.setToken(currentToken);
       UserStorageApi.setUser(await client.getUser());
     };
 
@@ -67,20 +71,26 @@ export const useAuth = () => {
     setLoading(false);
   }, [forceUpdate]);
 
-  const loginWithRedirect = useCallback(async () => {
-    if (!auth0Client) return;
-    if (typeof window === "undefined") return;
+  const loginWithRedirect = useCallback(
+    async (redirectUri?: string) => {
+      if (!auth0Client) return;
+      if (typeof window === "undefined") return;
+      console.log(`${window.location.origin}${redirectUri}`);
 
-    await auth0Client.loginWithRedirect({
-      redirect_uri: window.location.origin
-    });
-    setForceUpdate(true);
-  }, [auth0Client]);
+      await auth0Client.loginWithRedirect({
+        redirect_uri:
+          `${window.location.origin}${redirectUri}` ?? window.location.origin
+      });
+      setForceUpdate(true);
+    },
+    [auth0Client]
+  );
 
   return {
     isAuthenticated,
     user,
     loading,
+    authToken,
     loginWithRedirect
   };
 };

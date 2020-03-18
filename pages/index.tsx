@@ -10,10 +10,9 @@ const Index: React.FC = props => {
   const tryLogin = useCallback(async () => {
     if (isAuthenticated) {
       router.push("/dashboard");
+    } else {
+      await loginWithRedirect("/dashboard");
     }
-
-    await loginWithRedirect();
-    router.push("/dashboard");
   }, [isAuthenticated, loginWithRedirect, router]);
 
   return (
