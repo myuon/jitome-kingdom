@@ -75,7 +75,6 @@ export const useAuth = () => {
     async (redirectUri?: string) => {
       if (!auth0Client) return;
       if (typeof window === "undefined") return;
-      console.log(`${window.location.origin}${redirectUri}`);
 
       await auth0Client.loginWithRedirect({
         redirect_uri:

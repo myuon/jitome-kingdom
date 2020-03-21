@@ -33,6 +33,9 @@ module.exports = {
     ],
     'react/self-closing-comp': 2,
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    'react-hooks/exhaustive-deps': 'warn',
+    'camelcase': [
+      0
+    ]
   }
 }
