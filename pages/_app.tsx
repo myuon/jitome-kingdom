@@ -29,6 +29,7 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
             main {
               max-width: 1280px;
               margin: auto;
+              padding: 0.75em;
             }
           `}
         />

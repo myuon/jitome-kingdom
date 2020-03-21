@@ -69,7 +69,6 @@ export const useFetch = <T>(
   const [err, setErr] = useState();
 
   const forceReload = useCallback(async () => {
-    console.log("fire");
     const { data, error } = await fetcher<T>(url, options);
     if (data) {
       setData(data);
