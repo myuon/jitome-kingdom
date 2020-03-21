@@ -10,12 +10,17 @@ interface User {
 }
 
 export const useUser = (authToken: string | undefined) => {
-  const { data, loaded } = useFetch<User>(`${process.env.APP_ENDPOINT}/me`, {
-    authToken: authToken || "",
-    noRun: !authToken
-  });
+  const { data, loaded, forceReload } = useFetch<User>(
+    `${process.env.APP_ENDPOINT}/me`,
+    {
+      authToken: authToken || "",
+      noRun: !authToken
+    }
+  );
+
   return {
     user: data,
+    forceReload,
     loaded
   };
 };

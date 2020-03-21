@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const fetcher = async <T>(
   url: string,
@@ -11,11 +11,12 @@ export const fetcher = async <T>(
   data: T | undefined;
   error: any;
 }> => {
-  if (options.noRun)
+  if (options.noRun) {
     return {
       data: undefined,
       error: undefined
     };
+  }
 
   try {
     let obj: RequestInit = {};
@@ -61,33 +62,38 @@ export const useFetch = <T>(
   data: T | undefined;
   loaded: boolean;
   err: Error | undefined;
+  forceReload: () => void;
 } => {
   const [data, setData] = useState<T>();
   const [loaded, setLoaded] = useState(false);
   const [err, setErr] = useState();
 
+  const forceReload = useCallback(async () => {
+    console.log("fire");
+    const { data, error } = await fetcher<T>(url, options);
+    if (data) {
+      setData(data);
+      setLoaded(true);
+    }
+    if (error) {
+      setErr(error);
+    }
+  }, [options, url]);
+
+  // 初回とnoRunが変化したときだけ発火させる
+  // かなりアドホックな挙動なのでどこかで罠になる可能性あり…
   useEffect(
     () => {
-      const fetchData = async () => {
-        const { data, error } = await fetcher<T>(url, options);
-        if (data) {
-          setData(data);
-          setLoaded(true);
-        }
-        if (error) {
-          setErr(error);
-        }
-      };
-
-      fetchData();
+      forceReload();
     },
     // eslint-disable-next-line
-    [url, options.authToken, options.noRun]
+    [options.noRun]
   );
 
   return {
     data,
     loaded,
-    err
+    err,
+    forceReload
   };
 };

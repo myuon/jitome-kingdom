@@ -42,7 +42,7 @@ const ResultDialog: React.FC<{
 
 const Dashboard: React.FC = () => {
   const { authToken } = useAuthCtx();
-  const { user, loaded } = useUser(authToken);
+  const { user, loaded, forceReload: forceReloadUser } = useUser(authToken);
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
   const [obtained, setObtained] = useState(0);
 
@@ -54,6 +54,7 @@ const Dashboard: React.FC = () => {
     const { data, error } = await tryGacha(authToken);
     if (data) {
       setObtained(data.obtained);
+      forceReloadUser();
       setResultDialogOpen(true);
     }
 
@@ -61,7 +62,7 @@ const Dashboard: React.FC = () => {
       console.error(JSON.stringify(error));
       window.alert(JSON.stringify(error));
     }
-  }, [authToken]);
+  }, [authToken, forceReloadUser]);
 
   return (
     <>
