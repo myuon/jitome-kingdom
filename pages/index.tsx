@@ -1,11 +1,12 @@
 import React, { useCallback } from "react";
-import { Typography, Toolbar, Button, AppBar } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { css } from "@emotion/core";
-import { useAuth } from "../src/hooks/useAuth";
+import { useAuthCtx } from "../src/hooks/useAuth";
 import { useRouter } from "next/router";
+import { Navbar } from "./parts/Navbar";
 
 const Index: React.FC = props => {
-  const { isAuthenticated, loading, loginWithRedirect } = useAuth();
+  const { isAuthenticated, loginWithRedirect } = useAuthCtx();
   const router = useRouter();
   const tryLogin = useCallback(async () => {
     if (isAuthenticated) {
@@ -17,24 +18,7 @@ const Index: React.FC = props => {
 
   return (
     <React.Fragment>
-      <AppBar position="static" elevation={0}>
-        <Toolbar>
-          <div
-            css={css`
-              flex-grow: 1;
-            `}
-          >
-            <Typography variant="h6">ジト目王国</Typography>
-          </div>
-          {loading ? (
-            <>ローディング…</>
-          ) : isAuthenticated ? (
-            <>ログイン済みです</>
-          ) : (
-            <Button color="inherit">ログイン</Button>
-          )}
-        </Toolbar>
-      </AppBar>
+      <Navbar />
 
       <main>
         <p>index</p>

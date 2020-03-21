@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useAuth } from "../src/hooks/useAuth";
+import { useAuthCtx } from "../src/hooks/useAuth";
 import { useUser } from "../src/hooks/useUser";
+import { Navbar } from "./parts/Navbar";
 
 const Dashboard: React.FC = () => {
-  const { authToken } = useAuth();
+  const { authToken } = useAuthCtx();
   const { user, loaded } = useUser(authToken);
 
   useEffect(() => {
@@ -11,18 +12,22 @@ const Dashboard: React.FC = () => {
   }, [user]);
 
   return (
-    <main>
-      <h1>Dashboard</h1>
+    <>
+      <Navbar />
 
-      {loaded ? (
-        <div>
-          <p>名前: {user?.display_name}</p>
-          <p>みょんポイント: {user?.point}</p>
-        </div>
-      ) : (
-        <p>loading...</p>
-      )}
-    </main>
+      <main>
+        <h1>Dashboard</h1>
+
+        {loaded ? (
+          <div>
+            <p>名前: {user?.display_name}</p>
+            <p>みょんポイント: {user?.point}</p>
+          </div>
+        ) : (
+          <p>loading...</p>
+        )}
+      </main>
+    </>
   );
 };
 

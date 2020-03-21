@@ -1,8 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  useContext
+} from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import config from "../../auth_config.json";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
-import Router from "next/router";
+import Router, { useRouter } from "next/router";
 
 const TokenStorageApi = {
   getToken: () => localStorage.getItem("auth_token"),
@@ -29,11 +35,18 @@ export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>();
   const [forceUpdate, setForceUpdate] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [authToken, setAuthToken] = useState<string>();
+  const [loaded, setLoaded] = useState(false);
+  const [authToken, setAuthToken] = useState<string>("");
+  const router = useRouter();
 
   useEffect(() => {
     const fetcher = async () => {
+      const client = await createAuth0Client({
+        domain: config.domain,
+        client_id: config.clientId
+      });
+      setAuth0Client(client);
+
       const token = TokenStorageApi.getToken();
       if (token && TokenStorageApi.verifyToken(token)) {
         setIsAuthenticated(true);
@@ -41,12 +54,6 @@ export const useAuth = () => {
         setAuthToken(token);
         return;
       }
-
-      const client = await createAuth0Client({
-        domain: config.domain,
-        client_id: config.clientId
-      });
-      setAuth0Client(client);
 
       if (
         window.location.search.includes("code=") &&
@@ -68,7 +75,7 @@ export const useAuth = () => {
     fetcher();
 
     setForceUpdate(false);
-    setLoading(false);
+    setLoaded(true);
   }, [forceUpdate]);
 
   const loginWithRedirect = useCallback(
@@ -85,11 +92,46 @@ export const useAuth = () => {
     [auth0Client]
   );
 
+  const logout = useCallback(
+    async (redirectUri?: string) => {
+      console.log(auth0Client);
+      if (!auth0Client) return;
+      TokenStorageApi.clearToken();
+      auth0Client.logout();
+
+      if (redirectUri) {
+        router.push(redirectUri);
+      }
+    },
+    [auth0Client, router]
+  );
+
   return {
     isAuthenticated,
     user,
-    loading,
+    loaded,
     authToken,
-    loginWithRedirect
+    loginWithRedirect,
+    logout
   };
+};
+
+type AuthContext = {
+  isAuthenticated: boolean;
+  user: any;
+  loaded: boolean;
+  authToken: string;
+  loginWithRedirect: (redirectUri?: string) => Promise<void>;
+  logout: (redirectUri?: string) => Promise<void>;
+};
+
+export const AuthContext = createContext<AuthContext | undefined>(undefined);
+
+export const AuthProvider = AuthContext.Provider;
+
+export const useAuthCtx = (): AuthContext => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("AuthProvider not found");
+
+  return ctx;
 };
