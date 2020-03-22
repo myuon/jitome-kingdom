@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useRouter } from "next/router";
-import { Navbar } from "./parts/Navbar";
+import { Navbar } from "../src/parts/Navbar";
 
 const Index: React.FC = props => {
   const { isAuthenticated, loginWithRedirect } = useAuthCtx();

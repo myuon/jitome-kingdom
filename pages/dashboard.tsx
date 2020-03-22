@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useMemo } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useUser } from "../src/hooks/useUser";
-import { Navbar } from "./parts/Navbar";
+import { Navbar } from "../src/parts/Navbar";
 import {
   Button,
   Dialog,
