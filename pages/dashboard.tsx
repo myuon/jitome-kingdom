@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
     err: gachaError,
     loaded: gachaLoaded,
     forceReload: forceReloadGacha
-  } = useGacha(authToken);
+  } = useGacha(authToken, !loaded);
 
   const gachaAvailable = useMemo(() => {
     if (!gachaLoaded || gacha === undefined || gachaError !== undefined) {
