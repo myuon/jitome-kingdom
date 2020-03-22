@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useMemo } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useUser } from "../src/hooks/useUser";
 import { Navbar } from "./parts/Navbar";
@@ -10,7 +10,7 @@ import {
   DialogContentText,
   DialogActions
 } from "@material-ui/core";
-import { tryGacha } from "../src/hooks/useGacha";
+import { tryGacha, useGacha } from "../src/hooks/useGacha";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -45,6 +45,24 @@ const Dashboard: React.FC = () => {
   const { user, loaded, forceReload: forceReloadUser } = useUser(authToken);
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
   const [obtained, setObtained] = useState(0);
+  const { data: gacha, err: gachaError, loaded: gachaLoaded } = useGacha(
+    authToken
+  );
+
+  const gachaAvailable = useMemo(() => {
+    if (!gachaLoaded || gacha === undefined || gachaError !== undefined) {
+      return false;
+    }
+
+    // 前回のガチャ結果がないとき
+    if (gacha === null) {
+      return true;
+    } else {
+      return (
+        new Date(gacha.created_at * 1000).getDate() !== new Date().getDate()
+      );
+    }
+  }, [gacha, gachaLoaded, gachaError]);
 
   const handleCloseResultDialog = useCallback(() => {
     setResultDialogOpen(false);
@@ -59,8 +77,8 @@ const Dashboard: React.FC = () => {
     }
 
     if (error) {
-      console.error(JSON.stringify(error));
-      window.alert(`エラーが発生しました: ${JSON.stringify(error)}`);
+      console.error(error);
+      window.alert(`エラーが発生しました: ${error}`);
     }
   }, [authToken, forceReloadUser]);
 
@@ -76,9 +94,21 @@ const Dashboard: React.FC = () => {
             <p>名前: {user?.display_name}</p>
             <p>みょんポイント: {user?.point}</p>
 
-            <Button color="primary" variant="outlined" onClick={handleTryGacha}>
-              みょんポイントガチャを引く！
-            </Button>
+            {gachaLoaded ? (
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={handleTryGacha}
+                disabled={!gachaAvailable}
+              >
+                {gachaAvailable
+                  ? "みょんポイントガチャを引く！"
+                  : "本日のガチャは終了しました"}
+              </Button>
+            ) : (
+              <>loading...</>
+            )}
+            {gachaError && <p>{gachaError}</p>}
           </div>
         ) : (
           <p>loading...</p>

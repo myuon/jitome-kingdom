@@ -38,9 +38,7 @@ export const fetcher = async <T>(
     const resp = await fetch(url, obj);
 
     if (!resp.ok) {
-      throw new Error(
-        `Unhealthy Response: ${resp.status} ${await resp.text()}`
-      );
+      throw new Error(`${resp.status}: ${await resp.text()}`);
     }
 
     return {
