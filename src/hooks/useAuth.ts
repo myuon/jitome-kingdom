@@ -6,9 +6,13 @@ import {
   useContext
 } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
-import config from "../../auth_config.json";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
 import Router, { useRouter } from "next/router";
+
+const config = {
+  domain: "myuon.auth0.com",
+  clientId: "i2Fui9oEiFAN4zlVDeZIR2HYXBDPB0x7"
+};
 
 const TokenStorageApi = {
   getToken: () => localStorage.getItem("auth_token"),
