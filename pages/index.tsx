@@ -21,20 +21,41 @@ const Index: React.FC = props => {
       <Navbar />
 
       <main>
-        <p>index</p>
+        <img
+          src="/image/top_jitome.png"
+          css={css`
+            max-width: 95%;
+            display: block;
+            margin: 1.5em auto;
+          `}
+          decoding="async"
+        />
+        <img
+          src="/image/logo.png"
+          css={css`
+            max-width: 85%;
+            display: block;
+            margin: 1.5em auto;
+          `}
+          decoding="async"
+          width="200px"
+        />
         <div
           css={css`
             display: flex;
             justify-content: center;
           `}
         >
-          <Button variant="contained" color="primary" onClick={tryLogin}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={tryLogin}
+            size="large"
+          >
             ログインしてスタート
           </Button>
         </div>
       </main>
-
-      <footer>ふったー</footer>
     </React.Fragment>
   );
 };

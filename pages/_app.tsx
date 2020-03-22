@@ -27,7 +27,7 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
         <Global
           styles={css`
             main {
-              max-width: 1280px;
+              max-width: 1024px;
               margin: auto;
               padding: 0.75em;
             }
