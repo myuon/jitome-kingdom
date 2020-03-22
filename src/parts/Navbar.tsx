@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
     }
   }, [isAuthenticated, loginWithRedirect, router]);
   const handleLogout = useCallback(() => {
-    logout(process.env.APP_ENDPOINT);
+    logout(window.origin);
   }, [logout]);
 
   return (
