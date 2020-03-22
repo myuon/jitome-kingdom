@@ -22,7 +22,7 @@ export const tryGacha = async (authToken?: string) => {
 };
 
 export const useGacha = (authToken?: string) => {
-  const { data, err, loaded } = useFetch<GachaRecord>(
+  const { data, err, loaded, forceReload } = useFetch<GachaRecord>(
     `${process.env.APP_ENDPOINT}/gacha/daily/latest`,
     {
       authToken,
@@ -33,6 +33,7 @@ export const useGacha = (authToken?: string) => {
   return {
     data,
     err,
-    loaded
+    loaded,
+    forceReload
   };
 };

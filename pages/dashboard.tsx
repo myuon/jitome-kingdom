@@ -45,9 +45,12 @@ const Dashboard: React.FC = () => {
   const { user, loaded, forceReload: forceReloadUser } = useUser(authToken);
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
   const [obtained, setObtained] = useState(0);
-  const { data: gacha, err: gachaError, loaded: gachaLoaded } = useGacha(
-    authToken
-  );
+  const {
+    data: gacha,
+    err: gachaError,
+    loaded: gachaLoaded,
+    forceReload: forceReloadGacha
+  } = useGacha(authToken);
 
   const gachaAvailable = useMemo(() => {
     if (!gachaLoaded || gacha === undefined || gachaError !== undefined) {
@@ -73,6 +76,7 @@ const Dashboard: React.FC = () => {
     if (data) {
       setObtained(data.obtained);
       forceReloadUser();
+      forceReloadGacha();
       setResultDialogOpen(true);
     }
 
@@ -80,7 +84,7 @@ const Dashboard: React.FC = () => {
       console.error(error);
       window.alert(`エラーが発生しました: ${error}`);
     }
-  }, [authToken, forceReloadUser]);
+  }, [authToken, forceReloadUser, forceReloadGacha]);
 
   return (
     <>
