@@ -60,7 +60,7 @@ const Dashboard: React.FC = () => {
 
     if (error) {
       console.error(JSON.stringify(error));
-      window.alert(JSON.stringify(error));
+      window.alert(`エラーが発生しました: ${JSON.stringify(error)}`);
     }
   }, [authToken, forceReloadUser]);
 
