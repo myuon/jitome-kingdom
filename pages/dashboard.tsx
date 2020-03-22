@@ -8,9 +8,11 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions
+  DialogActions,
+  Grid
 } from "@material-ui/core";
 import { tryGacha, useGacha } from "../src/hooks/useGacha";
+import { css } from "@emotion/core";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -91,29 +93,55 @@ const Dashboard: React.FC = () => {
       <Navbar />
 
       <main>
-        <h1>Dashboard</h1>
+        {loaded && user ? (
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <p>名前: {user?.display_name}</p>
+              <p>みょんポイント: {user?.point}</p>
+            </Grid>
 
-        {loaded ? (
-          <div>
-            <p>名前: {user?.display_name}</p>
-            <p>みょんポイント: {user?.point}</p>
-
-            {gachaLoaded ? (
-              <Button
-                color="primary"
-                variant="outlined"
-                onClick={handleTryGacha}
-                disabled={!gachaAvailable}
-              >
-                {gachaAvailable
-                  ? "みょんポイントガチャを引く！"
-                  : "本日のガチャは終了しました"}
-              </Button>
-            ) : (
-              <>loading...</>
+            <Grid item>
+              {gachaLoaded ? (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={handleTryGacha}
+                  disabled={!gachaAvailable}
+                  size="large"
+                >
+                  {gachaAvailable
+                    ? "みょんポイントガチャを引く！"
+                    : "本日のガチャは終了しました"}
+                </Button>
+              ) : (
+                <>loading...</>
+              )}
+            </Grid>
+            {gachaError && (
+              <Grid item>
+                <p>{gachaError}</p>
+              </Grid>
             )}
-            {gachaError && <p>{gachaError}</p>}
-          </div>
+            <Grid item>
+              <Grid container spacing={1}>
+                <Grid item>
+                  <p>みょんポイントをみんなとシェアしましょう！</p>
+                </Grid>
+                <Grid item>
+                  <Button
+                    href={`https://twitter.com/share?text=現在${user?.point}みょんポイントを保持しています！&url=${window.origin}`}
+                    color="inherit"
+                    variant="outlined"
+                    css={css`
+                      color: rgb(29, 161, 242);
+                    `}
+                  >
+                    ツイート
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         ) : (
           <p>loading...</p>
         )}
