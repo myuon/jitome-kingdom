@@ -7,7 +7,7 @@ import {
 } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
 import Auth0Client from "@auth0/auth0-spa-js/dist/typings/Auth0Client";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 
 const config = {
   domain: "myuon.auth0.com",
@@ -41,7 +41,6 @@ export const useAuth = () => {
   const [forceUpdate, setForceUpdate] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [authToken, setAuthToken] = useState<string>("");
-  const router = useRouter();
 
   useEffect(() => {
     const fetcher = async () => {
@@ -101,13 +100,11 @@ export const useAuth = () => {
       console.log(auth0Client);
       if (!auth0Client) return;
       TokenStorageApi.clearToken();
-      auth0Client.logout();
-
-      if (redirectUri) {
-        router.push(redirectUri);
-      }
+      auth0Client.logout({
+        returnTo: redirectUri
+      });
     },
-    [auth0Client, router]
+    [auth0Client]
   );
 
   return {
