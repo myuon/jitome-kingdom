@@ -68,7 +68,7 @@ export const useFetch = <T>(
 
   const forceReload = useCallback(async () => {
     const { data, error } = await fetcher<T>(url, options);
-    if (data) {
+    if (data !== undefined) {
       setData(data);
       setLoaded(true);
     }
