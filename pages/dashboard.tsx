@@ -81,8 +81,13 @@ const Dashboard: React.FC = () => {
         {loaded && user ? (
           <Grid container direction="column" spacing={2}>
             <Grid item>
-              <p>名前: {user?.display_name}</p>
               <p>みょんポイント: {user?.point}</p>
+              {gacha?.latest && (
+                <p>
+                  最後にガチャを引いた日:
+                  {new Date(gacha.latest.created_at * 1000).toLocaleString()}
+                </p>
+              )}
             </Grid>
 
             <Grid item>
