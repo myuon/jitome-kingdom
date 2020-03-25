@@ -1,13 +1,17 @@
 import { fetcher, useFetch } from "./useFetch";
 
-interface GachaRecordPayload {
+interface GachaEvent {
   id: string;
   user_id: string;
   gacha_type: string;
   created_at: number;
 }
 
-type GachaRecord = GachaRecordPayload | null;
+interface DailyGachaRecord {
+  latest?: GachaEvent;
+  is_available: boolean;
+  next_gacha_time: number;
+}
 
 interface GachaResult {
   obtained: number;
@@ -22,8 +26,8 @@ export const tryGacha = async (authToken?: string) => {
 };
 
 export const useGacha = (authToken?: string, noRun?: boolean) => {
-  const { data, err, loaded, forceReload } = useFetch<GachaRecord>(
-    `${process.env.APP_ENDPOINT}/gacha/daily/latest`,
+  const { data, err, loaded, forceReload } = useFetch<DailyGachaRecord>(
+    `${process.env.APP_ENDPOINT}/gacha/daily/record`,
     {
       authToken,
       noRun: !authToken || noRun

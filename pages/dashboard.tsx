@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useMemo } from "react";
+import React, { useCallback, useState } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useUser } from "../src/hooks/useUser";
 import { Navbar } from "../src/parts/Navbar";
@@ -54,21 +54,6 @@ const Dashboard: React.FC = () => {
     forceReload: forceReloadGacha
   } = useGacha(authToken, !loaded);
 
-  const gachaAvailable = useMemo(() => {
-    if (!gachaLoaded || gacha === undefined || gachaError !== undefined) {
-      return false;
-    }
-
-    // 前回のガチャ結果がないとき
-    if (gacha === null) {
-      return true;
-    } else {
-      return (
-        new Date(gacha.created_at * 1000).getDate() !== new Date().getDate()
-      );
-    }
-  }, [gacha, gachaLoaded, gachaError]);
-
   const handleCloseResultDialog = useCallback(() => {
     setResultDialogOpen(false);
   }, []);
@@ -101,21 +86,24 @@ const Dashboard: React.FC = () => {
             </Grid>
 
             <Grid item>
-              {gachaLoaded ? (
+              {gachaLoaded && gacha ? (
                 <Button
                   color="primary"
                   variant="contained"
                   onClick={handleTryGacha}
-                  disabled={!gachaAvailable}
+                  disabled={!gacha.is_available}
                   size="large"
                 >
-                  {gachaAvailable
+                  {gacha.is_available
                     ? "みょんポイントガチャを引く！"
                     : "本日のガチャは終了しました"}
                 </Button>
               ) : (
                 <>loading...</>
               )}
+            </Grid>
+            <Grid item>
+              <small>現在のみょんポイントガチャは毎日0時更新です</small>
             </Grid>
             {gachaError && (
               <Grid item>
