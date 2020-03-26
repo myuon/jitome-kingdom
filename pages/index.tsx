@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { Button } from "@material-ui/core";
 import { css } from "@emotion/core";
+import { useAuthCtx } from "../src/hooks/useAuth";
+import { useRouter } from "next/router";
+import { Navbar } from "../src/parts/Navbar";
 
 const Index: React.FC = props => {
+  const { isAuthenticated, loginWithRedirect } = useAuthCtx();
+  const router = useRouter();
+  const tryLogin = useCallback(async () => {
+    if (isAuthenticated) {
+      router.push("/dashboard");
+    } else {
+      await loginWithRedirect("/dashboard");
+    }
+  }, [isAuthenticated, loginWithRedirect, router]);
+
   return (
-    <>
-      {/* <React.Fragment>
+    <React.Fragment>
       <Navbar />
 
       <main>
@@ -44,27 +57,6 @@ const Index: React.FC = props => {
         </div>
       </main>
     </React.Fragment>
-    */}
-      <main>
-        <div
-          css={css`
-            display: flex;
-            justify-content: center;
-          `}
-        >
-          <h1>メンテナンス中です。しばらくお待ちください。</h1>
-        </div>
-        <img
-          src="/image/top_jitome.png"
-          css={css`
-            max-width: 95%;
-            display: block;
-            margin: 1.5em auto;
-          `}
-          decoding="async"
-        />
-      </main>
-    </>
   );
 };
 
