@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import { Button } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useAuthCtx } from "../src/hooks/useAuth";
@@ -21,6 +22,10 @@ const Index: React.FC = props => {
       <Navbar />
 
       <main>
+        <Alert severity="error">
+          <AlertTitle>緊急メンテナンスとロールバックについて</AlertTitle>
+          2020/03/26の23時30分ごろより行っていた緊急メンテナンスの回復の際にロールバックを行ったため2020/03/16の18時以降に引かれたガチャの記録が消滅しています。ご不便をおかけして申し訳ありません。
+        </Alert>
         <img
           src="/image/top_jitome.png"
           css={css`
