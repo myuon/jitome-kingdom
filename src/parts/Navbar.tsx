@@ -9,6 +9,8 @@ import {
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
 import { useAuthCtx } from "../hooks/useAuth";
+import Link from "next/link";
+import { MultiColorBar } from "../components/MultiColorBar";
 
 export const Navbar: React.FC = () => {
   const { isAuthenticated, loaded, loginWithRedirect, logout } = useAuthCtx();
@@ -25,29 +27,36 @@ export const Navbar: React.FC = () => {
   }, [logout]);
 
   return (
-    <AppBar position="static" elevation={0}>
-      <Container maxWidth="lg">
-        <Toolbar>
-          <div
-            css={css`
-              flex-grow: 1;
-            `}
-          >
-            <Typography variant="h6">ジト目王国</Typography>
-          </div>
-          {!loaded ? (
-            <>ローディング…</>
-          ) : isAuthenticated ? (
-            <Button color="inherit" onClick={handleLogout}>
-              ログアウト
-            </Button>
-          ) : (
-            <Button color="inherit" onClick={tryLogin}>
-              ログイン
-            </Button>
-          )}
-        </Toolbar>
-      </Container>
-    </AppBar>
+    <>
+      <AppBar position="static" elevation={0} color="transparent">
+        <Container maxWidth="lg" disableGutters={true}>
+          <Toolbar>
+            <div
+              css={css`
+                flex-grow: 1;
+              `}
+            >
+              <Link href="/">
+                <Typography component="a" variant="h6">
+                  Jitome Kingdom
+                </Typography>
+              </Link>
+            </div>
+            {!loaded ? (
+              <>ローディング…</>
+            ) : isAuthenticated ? (
+              <Button color="inherit" onClick={handleLogout}>
+                ログアウト
+              </Button>
+            ) : (
+              <Button color="inherit" onClick={tryLogin}>
+                ログイン
+              </Button>
+            )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <MultiColorBar />
+    </>
   );
 };
