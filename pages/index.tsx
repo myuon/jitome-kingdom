@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
-import { Alert, AlertTitle } from "@material-ui/lab";
-import { Button } from "@material-ui/core";
+import { Button, Typography, Grid } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useRouter } from "next/router";
 import { Navbar } from "../src/parts/Navbar";
+import HistoryIcon from "@material-ui/icons/History";
 
 const Index: React.FC = props => {
   const { isAuthenticated, loginWithRedirect } = useAuthCtx();
@@ -22,10 +22,6 @@ const Index: React.FC = props => {
       <Navbar />
 
       <main>
-        <Alert severity="error">
-          <AlertTitle>緊急メンテナンスとロールバックについて</AlertTitle>
-          2020/03/26の23時30分ごろより行っていた緊急メンテナンスの回復の際にロールバックを行ったため2020/03/16の18時以降に引かれたガチャの記録が消滅しています。ご不便をおかけして申し訳ありません。
-        </Alert>
         <img
           src="/image/top_jitome.png"
           css={css`
@@ -49,6 +45,7 @@ const Index: React.FC = props => {
           css={css`
             display: flex;
             justify-content: center;
+            margin: 2em;
           `}
         >
           <Button
@@ -59,6 +56,39 @@ const Index: React.FC = props => {
           >
             ログインしてスタート
           </Button>
+        </div>
+        <div
+          css={css`
+            header {
+              margin-bottom: 0.5em;
+            }
+
+            p {
+              font-size: smaller;
+            }
+          `}
+        >
+          <header>
+            <Grid container direction="row" alignItems="center">
+              <Grid
+                item
+                css={css`
+                  margin-right: 0.5em;
+                `}
+              >
+                <HistoryIcon />
+              </Grid>
+              <Grid item>
+                <Typography variant="h6">サービス更新履歴</Typography>
+              </Grid>
+            </Grid>
+          </header>
+          <Typography>2020-03-29: 画面を可愛くしました。</Typography>
+          <Typography>
+            2020-03-26:
+            緊急メンテナンスを行いました。ロールバックを行ったため、同日の18時以降のガチャ記録が消失しています。ご不便をおかけして申し訳ありません。こちらについては後日お詫びのプレゼントを送る予定です。
+          </Typography>
+          <Typography>2020-03-23: サービスをリリースしました。</Typography>
         </div>
       </main>
     </>
