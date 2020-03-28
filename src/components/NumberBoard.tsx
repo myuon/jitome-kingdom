@@ -32,6 +32,7 @@ export const NumberBoard: React.FC<{
           display: flex;
           justify-content: center;
           font-size: 128px;
+          letter-spacing: -0.05em;
         `}
       >
         {props.number}
