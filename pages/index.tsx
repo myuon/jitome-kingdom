@@ -18,7 +18,7 @@ const Index: React.FC = props => {
   }, [isAuthenticated, loginWithRedirect, router]);
 
   return (
-    <React.Fragment>
+    <>
       <Navbar />
 
       <main>
@@ -61,7 +61,7 @@ const Index: React.FC = props => {
           </Button>
         </div>
       </main>
-    </React.Fragment>
+    </>
   );
 };
 

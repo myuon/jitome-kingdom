@@ -40,9 +40,10 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
           <Global
             styles={css`
               main {
-                max-width: 1024px;
+                max-width: 860px;
                 margin: auto;
                 padding: 0.75em;
+                color: #363636;
               }
             `}
           />

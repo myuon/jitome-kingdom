@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { tryGacha, useGacha } from "../src/hooks/useGacha";
 import { css } from "@emotion/core";
+import { NumberBoard } from "../src/components/NumberBoard";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -80,61 +81,71 @@ const Dashboard: React.FC = () => {
 
       <main>
         {loaded && user ? (
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <p>みょんポイント: {user?.point}</p>
-              {gacha?.latest && (
-                <p>
-                  最後にガチャを引いた日:
-                  {new Date(gacha.latest.created_at * 1000).toLocaleString()}
-                </p>
+          <Grid container spacing={4}>
+            <Grid item container direction="column" spacing={1}>
+              <Grid item>
+                <div
+                  css={css`
+                    margin: 1em;
+                  `}
+                >
+                  <NumberBoard
+                    label="現在のみょんポイント"
+                    number={user?.point}
+                  />
+                </div>
+                {gacha?.latest && (
+                  <p>
+                    最後にガチャを引いた日:
+                    {new Date(gacha.latest.created_at * 1000).toLocaleString()}
+                  </p>
+                )}
+              </Grid>
+
+              <Grid item>
+                {gachaLoaded && gacha ? (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={handleTryGacha}
+                    disabled={!gacha.is_available}
+                    size="large"
+                  >
+                    {gacha.is_available
+                      ? "みょんポイントガチャを引く！"
+                      : "本日のガチャは終了しました"}
+                  </Button>
+                ) : (
+                  <>loading...</>
+                )}
+              </Grid>
+              <Grid item>
+                <small>現在のみょんポイントガチャは毎日0時更新です</small>
+              </Grid>
+              {gachaError && (
+                <Grid item>
+                  <Typography color="error">
+                    {JSON.stringify(gachaError)}
+                  </Typography>
+                </Grid>
               )}
             </Grid>
 
-            <Grid item>
-              {gachaLoaded && gacha ? (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={handleTryGacha}
-                  disabled={!gacha.is_available}
-                  size="large"
-                >
-                  {gacha.is_available
-                    ? "みょんポイントガチャを引く！"
-                    : "本日のガチャは終了しました"}
-                </Button>
-              ) : (
-                <>loading...</>
-              )}
-            </Grid>
-            <Grid item>
-              <small>現在のみょんポイントガチャは毎日0時更新です</small>
-            </Grid>
-            {gachaError && (
+            <Grid container item direction="column" spacing={1}>
               <Grid item>
-                <Typography color="error">
-                  {JSON.stringify(gachaError)}
-                </Typography>
+                <p>みょんポイントをみんなとシェアしましょう！</p>
               </Grid>
-            )}
-            <Grid item>
-              <Grid container spacing={1} direction="column">
-                <Grid item>
-                  <p>みょんポイントをみんなとシェアしましょう！</p>
-                </Grid>
-                <Grid item>
-                  <Button
-                    href={`https://twitter.com/share?text=現在${user?.point}みょんポイントを保持しています！&url=${window.origin}`}
-                    color="inherit"
-                    variant="outlined"
-                    css={css`
-                      color: rgb(29, 161, 242);
-                    `}
-                  >
-                    ツイート
-                  </Button>
-                </Grid>
+              <Grid item>
+                <Button
+                  href={`https://twitter.com/share?text=現在${user?.point}みょんポイントを保持しています！&url=${window.origin}`}
+                  color="inherit"
+                  variant="outlined"
+                  css={css`
+                    color: rgb(29, 161, 242);
+                  `}
+                >
+                  ツイート
+                </Button>
               </Grid>
             </Grid>
           </Grid>
