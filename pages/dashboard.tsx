@@ -9,7 +9,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  Grid
+  Grid,
+  Typography
 } from "@material-ui/core";
 import { tryGacha, useGacha } from "../src/hooks/useGacha";
 import { css } from "@emotion/core";
@@ -112,7 +113,9 @@ const Dashboard: React.FC = () => {
             </Grid>
             {gachaError && (
               <Grid item>
-                <p>{gachaError}</p>
+                <Typography color="error">
+                  {JSON.stringify(gachaError)}
+                </Typography>
               </Grid>
             )}
             <Grid item>
