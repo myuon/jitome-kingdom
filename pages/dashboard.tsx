@@ -10,20 +10,13 @@ import {
   DialogContentText,
   DialogActions,
   Grid,
-  Typography,
-  BottomNavigation,
-  BottomNavigationAction,
-  Paper,
-  Hidden,
-  Badge
+  Typography
 } from "@material-ui/core";
 import { tryGacha, useGacha } from "../src/hooks/useGacha";
 import { css } from "@emotion/core";
 import { NumberBoard } from "../src/components/NumberBoard";
-import RestoreIcon from "@material-ui/icons/Restore";
-import PersonIcon from "@material-ui/icons/Person";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import { useGift } from "../src/hooks/useGift";
+import { FooterNavigation } from "../src/parts/FooterNavigation";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -174,33 +167,7 @@ const Dashboard: React.FC = () => {
         )}
       </main>
 
-      <footer
-        css={css`
-          width: 100%;
-          position: fixed;
-          bottom: 0;
-        `}
-      >
-        <Hidden smUp>
-          <Paper elevation={3}>
-            <BottomNavigation showLabels value={1}>
-              <BottomNavigationAction
-                label="プレゼント"
-                icon={
-                  <Badge badgeContent={gifts?.length ?? 0} color="primary">
-                    <CardGiftcardIcon />
-                  </Badge>
-                }
-              />
-              <BottomNavigationAction
-                label="マイページ"
-                icon={<PersonIcon />}
-              />
-              <BottomNavigationAction label="更新履歴" icon={<RestoreIcon />} />
-            </BottomNavigation>
-          </Paper>
-        </Hidden>
-      </footer>
+      <FooterNavigation giftBadge={gifts?.length} />
 
       <ResultDialog
         obtained={obtained}

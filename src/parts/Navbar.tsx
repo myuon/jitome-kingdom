@@ -30,6 +30,13 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
     logout(window.origin);
   }, [logout]);
 
+  const handleGotoChangelog = useCallback(() => {
+    router.push("/changelog");
+  }, [router]);
+  const handleGotoGift = useCallback(() => {
+    router.push("/gift");
+  }, [router]);
+
   return (
     <>
       <div
@@ -65,13 +72,17 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
             {isAuthenticated && (
               <Hidden xsDown>
                 <Button color="inherit">
-                  <Badge badgeContent={props.giftBadge ?? 0} color="primary">
+                  <Badge
+                    badgeContent={props.giftBadge ?? 0}
+                    color="primary"
+                    onClick={handleGotoGift}
+                  >
                     <CardGiftcardIcon />
                     プレゼント
                   </Badge>
                 </Button>
 
-                <Button color="inherit">
+                <Button color="inherit" onClick={handleGotoChangelog}>
                   <RestoreIcon />
                   更新履歴
                 </Button>
