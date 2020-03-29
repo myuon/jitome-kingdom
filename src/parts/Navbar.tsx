@@ -43,7 +43,7 @@ export const Navbar: React.FC = () => {
                 flex-grow: 1;
               `}
             >
-              <Link href="/">
+              <Link href={isAuthenticated ? "/dashboard" : "/"}>
                 <a
                   href="javascript:void(0);"
                   css={css`
@@ -55,17 +55,19 @@ export const Navbar: React.FC = () => {
                 </a>
               </Link>
             </div>
-            <Hidden xsDown>
-              <Button color="inherit">
-                <CardGiftcardIcon />
-                プレゼント
-              </Button>
+            {isAuthenticated && (
+              <Hidden xsDown>
+                <Button color="inherit">
+                  <CardGiftcardIcon />
+                  プレゼント
+                </Button>
 
-              <Button color="inherit">
-                <RestoreIcon />
-                更新履歴
-              </Button>
-            </Hidden>
+                <Button color="inherit">
+                  <RestoreIcon />
+                  更新履歴
+                </Button>
+              </Hidden>
+            )}
             {!loaded ? (
               <>ローディング…</>
             ) : isAuthenticated ? (
