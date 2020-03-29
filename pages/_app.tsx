@@ -44,6 +44,9 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
                 margin: auto;
                 padding: 0.75em;
                 color: #363636;
+
+                /* FooterNavigation分 もうちょっとマシな方法ないのか？ */
+                padding-bottom: 75px;
               }
             `}
           />
