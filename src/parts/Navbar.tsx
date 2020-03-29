@@ -1,10 +1,13 @@
 import React, { useCallback } from "react";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button, Hidden } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
 import { useAuthCtx } from "../hooks/useAuth";
 import Link from "next/link";
 import { MultiColorBar } from "../components/MultiColorBar";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+import RestoreIcon from "@material-ui/icons/Restore";
+import PersonIcon from "@material-ui/icons/Person";
 
 export const Navbar: React.FC = () => {
   const { isAuthenticated, loaded, loginWithRedirect, logout } = useAuthCtx();
@@ -52,14 +55,27 @@ export const Navbar: React.FC = () => {
                 </a>
               </Link>
             </div>
+            <Hidden xsDown>
+              <Button color="inherit">
+                <CardGiftcardIcon />
+                プレゼント
+              </Button>
+
+              <Button color="inherit">
+                <RestoreIcon />
+                更新履歴
+              </Button>
+            </Hidden>
             {!loaded ? (
               <>ローディング…</>
             ) : isAuthenticated ? (
               <Button color="inherit" onClick={handleLogout}>
+                <PersonIcon />
                 ログアウト
               </Button>
             ) : (
               <Button color="inherit" onClick={tryLogin}>
+                <PersonIcon />
                 ログイン
               </Button>
             )}

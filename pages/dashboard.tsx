@@ -10,11 +10,18 @@ import {
   DialogContentText,
   DialogActions,
   Grid,
-  Typography
+  Typography,
+  BottomNavigation,
+  BottomNavigationAction,
+  Paper,
+  Hidden
 } from "@material-ui/core";
 import { tryGacha, useGacha } from "../src/hooks/useGacha";
 import { css } from "@emotion/core";
 import { NumberBoard } from "../src/components/NumberBoard";
+import RestoreIcon from "@material-ui/icons/Restore";
+import PersonIcon from "@material-ui/icons/Person";
+import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -81,8 +88,17 @@ const Dashboard: React.FC = () => {
 
       <main>
         {loaded && user ? (
-          <Grid container spacing={4}>
-            <Grid item container direction="column" spacing={1}>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+
+              & > div:not(:first-child) {
+                margin-top: 1em;
+              }
+            `}
+          >
+            <Grid container direction="column" spacing={1}>
               <Grid item>
                 <div
                   css={css`
@@ -131,7 +147,7 @@ const Dashboard: React.FC = () => {
               )}
             </Grid>
 
-            <Grid container item direction="column" spacing={1}>
+            <Grid container direction="column" spacing={1}>
               <Grid item>
                 <p>みょんポイントをみんなとシェアしましょう！</p>
               </Grid>
@@ -148,11 +164,35 @@ const Dashboard: React.FC = () => {
                 </Button>
               </Grid>
             </Grid>
-          </Grid>
+          </div>
         ) : (
-          <p>loading...</p>
+          <>loading...</>
         )}
       </main>
+
+      <footer
+        css={css`
+          width: 100%;
+          position: fixed;
+          bottom: 0;
+        `}
+      >
+        <Hidden smUp>
+          <Paper elevation={3}>
+            <BottomNavigation showLabels value={0}>
+              <BottomNavigationAction
+                label="マイページ"
+                icon={<PersonIcon />}
+              />
+              <BottomNavigationAction
+                label="プレゼント"
+                icon={<CardGiftcardIcon />}
+              />
+              <BottomNavigationAction label="更新履歴" icon={<RestoreIcon />} />
+            </BottomNavigation>
+          </Paper>
+        </Hidden>
+      </footer>
 
       <ResultDialog
         obtained={obtained}
