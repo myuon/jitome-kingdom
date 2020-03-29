@@ -14,7 +14,8 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   Paper,
-  Hidden
+  Hidden,
+  Badge
 } from "@material-ui/core";
 import { tryGacha, useGacha } from "../src/hooks/useGacha";
 import { css } from "@emotion/core";
@@ -22,6 +23,7 @@ import { NumberBoard } from "../src/components/NumberBoard";
 import RestoreIcon from "@material-ui/icons/Restore";
 import PersonIcon from "@material-ui/icons/Person";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
+import { useGift } from "../src/hooks/useGift";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -82,6 +84,8 @@ const Dashboard: React.FC = () => {
     }
   }, [authToken, forceReloadUser, forceReloadGacha]);
 
+  const { data: gifts } = useGift(authToken);
+
   return (
     <>
       <Navbar />
@@ -93,7 +97,7 @@ const Dashboard: React.FC = () => {
               display: flex;
               flex-direction: column;
 
-              & > div:not(:first-child) {
+              & > div:not(:first-of-type) {
                 margin-top: 1em;
               }
             `}
@@ -186,7 +190,11 @@ const Dashboard: React.FC = () => {
               />
               <BottomNavigationAction
                 label="プレゼント"
-                icon={<CardGiftcardIcon />}
+                icon={
+                  <Badge badgeContent={gifts?.length ?? 0}>
+                    <CardGiftcardIcon />
+                  </Badge>
+                }
               />
               <BottomNavigationAction label="更新履歴" icon={<RestoreIcon />} />
             </BottomNavigation>
