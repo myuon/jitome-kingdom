@@ -6,8 +6,13 @@ import { FooterNavigation } from "../src/parts/FooterNavigation";
 import { Typography } from "@material-ui/core";
 import { css } from "@emotion/core";
 
-const dataChangelog = {
+export const dataChangelog = {
   history: [
+    {
+      date: "2020-03-29_2",
+      content:
+        "プレゼント機能を追加しました。3/26の緊急メンテナンスのお詫びとして15ポイントを全ユーザーに配布しました。"
+    },
     {
       date: "2020-03-29",
       content: "画面を可愛くしました。"
