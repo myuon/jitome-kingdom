@@ -1,4 +1,4 @@
-import { useFetch } from "./useFetch";
+import { useFetch, fetcher } from "./useFetch";
 
 interface Gift {
   id: string;
@@ -20,4 +20,21 @@ export const useGift = (authToken?: string, noRun?: boolean) => {
     loaded,
     forceReload
   };
+};
+
+export const tryDistributionGift = (
+  authToken: string,
+  argument: {
+    point: number;
+    description: string;
+  }
+) => {
+  return fetcher<void>(
+    `${process.env.APP_ENDPOINT}/admin/gift/distribute_all`,
+    {
+      method: "POST",
+      body: JSON.stringify(argument),
+      authToken
+    }
+  );
 };

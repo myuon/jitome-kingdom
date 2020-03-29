@@ -1,5 +1,12 @@
 import React, { useCallback } from "react";
-import { AppBar, Toolbar, Typography, Button, Hidden } from "@material-ui/core";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Hidden,
+  Badge
+} from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
 import { useAuthCtx } from "../hooks/useAuth";
@@ -9,7 +16,7 @@ import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import RestoreIcon from "@material-ui/icons/Restore";
 import PersonIcon from "@material-ui/icons/Person";
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC<{ giftBadge?: number }> = props => {
   const { isAuthenticated, loaded, loginWithRedirect, logout } = useAuthCtx();
   const router = useRouter();
   const tryLogin = useCallback(async () => {
@@ -58,8 +65,10 @@ export const Navbar: React.FC = () => {
             {isAuthenticated && (
               <Hidden xsDown>
                 <Button color="inherit">
-                  <CardGiftcardIcon />
-                  プレゼント
+                  <Badge badgeContent={props.giftBadge ?? 0} color="primary">
+                    <CardGiftcardIcon />
+                    プレゼント
+                  </Badge>
                 </Button>
 
                 <Button color="inherit">

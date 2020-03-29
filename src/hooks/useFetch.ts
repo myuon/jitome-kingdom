@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 export const fetcher = async <T>(
   url: string,
   options: {
+    body?: string;
     method?: string;
     authToken?: string;
     noRun?: boolean;
@@ -22,16 +23,22 @@ export const fetcher = async <T>(
     let obj: RequestInit = {};
     if (options.authToken) {
       obj = {
+        ...obj,
         headers: {
           Authorization: `Bearer ${options.authToken}`
-        },
-        ...obj
+        }
       };
     }
     if (options.method) {
       obj = {
-        method: options.method,
-        ...obj
+        ...obj,
+        method: options.method
+      };
+    }
+    if (options.body) {
+      obj = {
+        ...obj,
+        body: options.body
       };
     }
 

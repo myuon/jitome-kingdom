@@ -7,7 +7,14 @@ interface User {
   point: number;
   created_at: number;
   picture_url: string;
+  roles?: string[];
 }
+
+export const isAdmin = (user: User): boolean => {
+  return (
+    user.roles !== undefined && user.roles.filter(r => r === "admin").length > 0
+  );
+};
 
 export const useUser = (authToken: string | undefined) => {
   const { data, loaded, forceReload } = useFetch<User>(

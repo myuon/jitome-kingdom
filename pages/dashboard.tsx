@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar giftBadge={gifts?.length} />
 
       <main>
         {loaded && user ? (
@@ -183,18 +183,18 @@ const Dashboard: React.FC = () => {
       >
         <Hidden smUp>
           <Paper elevation={3}>
-            <BottomNavigation showLabels value={0}>
-              <BottomNavigationAction
-                label="マイページ"
-                icon={<PersonIcon />}
-              />
+            <BottomNavigation showLabels value={1}>
               <BottomNavigationAction
                 label="プレゼント"
                 icon={
-                  <Badge badgeContent={gifts?.length ?? 0}>
+                  <Badge badgeContent={gifts?.length ?? 0} color="primary">
                     <CardGiftcardIcon />
                   </Badge>
                 }
+              />
+              <BottomNavigationAction
+                label="マイページ"
+                icon={<PersonIcon />}
               />
               <BottomNavigationAction label="更新履歴" icon={<RestoreIcon />} />
             </BottomNavigation>
