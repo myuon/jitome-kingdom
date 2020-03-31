@@ -9,6 +9,11 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-01",
+      content:
+        "PWAに対応しました。ホーム画面に追加していつでもみょんポイントを確認してください！"
+    },
+    {
       date: "2020-03-29_2",
       content:
         "プレゼント機能を追加しました。3/26の緊急メンテナンスのお詫びとして15ポイントを全ユーザーに配布しました。"
