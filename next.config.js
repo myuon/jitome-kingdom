@@ -1,3 +1,5 @@
+const withPWA = require("next-pwa");
+
 const env = {
   dev: {
     APP_ENDPOINT: "http://localhost:1234"
@@ -7,6 +9,6 @@ const env = {
   }
 };
 
-module.exports = {
+module.exports = withPWA({
   env: process.env.NODE_ENV === "production" ? env.prod : env.dev
-};
+});
