@@ -31,6 +31,7 @@ const Index: React.FC = props => {
             margin: 1.5em auto;
           `}
           decoding="async"
+          alt="ジト目ガールかわいいピクチャ"
         />
         <img
           src="/image/logo.png"
@@ -41,6 +42,7 @@ const Index: React.FC = props => {
           `}
           decoding="async"
           width="200px"
+          alt="申し訳程度のロゴ"
         />
         <div
           css={css`
