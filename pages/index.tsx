@@ -65,10 +65,6 @@ const Index: React.FC = props => {
             header {
               margin-bottom: 0.5em;
             }
-
-            p {
-              font-size: smaller;
-            }
           `}
         >
           <header>

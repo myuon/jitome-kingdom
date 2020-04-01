@@ -24,6 +24,13 @@ const muiTheme = createMuiTheme({
       light: theme.palette.primary.light,
       dark: theme.palette.primary.dark
     }
+  },
+  props: {
+    MuiTypography: {
+      style: {
+        lineHeight: 1.8
+      }
+    }
   }
 });
 
