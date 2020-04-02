@@ -1,4 +1,4 @@
-import { useFetch } from "./useFetch";
+import { useFetch, fetcher } from "./useFetch";
 
 interface User {
   id: string;
@@ -30,4 +30,18 @@ export const useUser = (authToken: string | undefined) => {
     forceReload,
     loaded
   };
+};
+
+export const tryUpdateProfile = (
+  authToken: string | undefined,
+  argument: {
+    screen_name: string;
+    display_name: string;
+  }
+) => {
+  return fetcher(`${process.env.APP_ENDPOINT}/me/profile`, {
+    authToken: authToken || "",
+    noRun: !authToken,
+    body: JSON.stringify(argument)
+  });
 };
