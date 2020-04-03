@@ -1,7 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Navbar } from "../src/parts/Navbar";
 import { useAuthCtx } from "../src/hooks/useAuth";
-import { useUser } from "../src/hooks/useUser";
+import {
+  useUser,
+  tryCheckAvailability,
+  tryUpdateProfile
+} from "../src/hooks/useUser";
 import {
   Typography,
   Dialog,
@@ -12,9 +16,15 @@ import {
   Button,
   TextField,
   Grid,
-  InputAdornment
+  InputAdornment,
+  Snackbar,
+  IconButton
 } from "@material-ui/core";
 import { css } from "@emotion/core";
+import CheckIcon from "@material-ui/icons/Check";
+import ErrorIcon from "@material-ui/icons/Error";
+import CloseIcon from "@material-ui/icons/Close";
+import { green } from "@material-ui/core/colors";
 
 const UserInitializedDialog: React.FC<{
   open: boolean;
@@ -46,16 +56,20 @@ const Account = () => {
   const [initializedUser, setInitializedUser] = useState(false);
 
   useEffect(() => {
-    if (loaded && user && user.screen_name == null) {
-      setInitializedUser(true);
+    if (loaded && user) {
       setUserId(user.screen_name);
       setDisplayName(user.display_name);
+
+      if (user.screen_name == null) {
+        setInitializedUser(true);
+      }
     }
   }, [user, setInitializedUser, loaded]);
 
-  const [userId, setUserId] = useState();
+  const [userId, setUserId] = useState<string>();
   const [userIdError, setUserIdError] = useState<string>();
   const [displayName, setDisplayName] = useState("");
+  const [userIdAvailability, setUserIdAvailability] = useState(false);
 
   const handleCloseInitializedUserDialog = useCallback(() => {
     setInitializedUser(false);
@@ -63,7 +77,7 @@ const Account = () => {
     setDisplayName(authUser.name);
   }, [authUser]);
 
-  const handleChangeUserId = useCallback(event => {
+  const handleChangeUserId = useCallback(async event => {
     const value = event.target.value;
     setUserId(event.target.value);
 
@@ -73,6 +87,50 @@ const Account = () => {
       setUserIdError("");
     }
   }, []);
+
+  useEffect(() => {
+    const runner = async () => {
+      if (userId === user?.screen_name) {
+        setUserIdAvailability(true);
+        setUserIdError(undefined);
+        return;
+      }
+
+      const { data, error } = await tryCheckAvailability(
+        authToken,
+        userId || "",
+        {
+          noRun: !userId
+        }
+      );
+      if (error) {
+        window.alert(`${JSON.stringify(error)}`);
+      }
+
+      if (data) {
+        setUserIdAvailability(data.availability);
+        setUserIdError(
+          data.availability ? undefined : "このユーザーIDは使用できません"
+        );
+      }
+    };
+
+    runner();
+  }, [userId, authToken]);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const handleSnackbarClose = useCallback(() => {
+    setSnackbarOpen(false);
+  }, []);
+
+  const handleSubmit = useCallback(async () => {
+    await tryUpdateProfile(authToken, {
+      screen_name: userId || "",
+      display_name: displayName,
+      picture_url: authUser?.picture
+    });
+    setSnackbarOpen(true);
+  }, [authToken, authUser, displayName, userId]);
 
   return (
     <>
@@ -124,14 +182,46 @@ const Account = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">@</InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      {userIdAvailability ? (
+                        <CheckIcon style={{ color: green[500] }} />
+                      ) : (
+                        <ErrorIcon color="error" />
+                      )}
+                    </InputAdornment>
                   )
                 }}
               />
             </Grid>
             <Grid item>
-              <Button color="primary" variant="contained">
+              <Button
+                color="primary"
+                variant="contained"
+                disabled={Boolean(userIdError)}
+                onClick={handleSubmit}
+              >
                 送信
               </Button>
+              <Snackbar
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left"
+                }}
+                open={snackbarOpen}
+                onClose={handleSnackbarClose}
+                message={"プロフィールを更新しました"}
+                action={
+                  <IconButton
+                    size="small"
+                    color="inherit"
+                    onClick={handleSnackbarClose}
+                  >
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                }
+              />
             </Grid>
           </Grid>
         ) : (

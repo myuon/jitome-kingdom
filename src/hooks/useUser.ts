@@ -37,11 +37,29 @@ export const tryUpdateProfile = (
   argument: {
     screen_name: string;
     display_name: string;
+    picture_url: string;
   }
 ) => {
-  return fetcher(`${process.env.APP_ENDPOINT}/me/profile`, {
+  return fetcher(`${process.env.APP_ENDPOINT}/me`, {
     authToken: authToken || "",
     noRun: !authToken,
-    body: JSON.stringify(argument)
+    body: JSON.stringify(argument),
+    method: "PUT"
   });
+};
+
+export const tryCheckAvailability = (
+  authToken: string | undefined,
+  screen_name: string,
+  options?: {
+    noRun?: boolean;
+  }
+) => {
+  return fetcher<{ availability: boolean }>(
+    `${process.env.APP_ENDPOINT}/users/${screen_name}/available`,
+    {
+      authToken: authToken || "",
+      noRun: !authToken || options?.noRun
+    }
+  );
 };
