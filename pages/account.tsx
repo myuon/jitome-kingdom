@@ -81,8 +81,10 @@ const Account = () => {
     const value = event.target.value;
     setUserId(event.target.value);
 
-    if (!/^[a-zA-Z0-9_]+$/.test(value)) {
-      setUserIdError("ユーザーIDは英数字またはアンダーバーのみ使えます");
+    if (!/^[a-zA-Z0-9_]{3,}$/.test(value)) {
+      setUserIdError(
+        "ユーザーIDは3文字以上、英数字またはアンダーバーのみ使えます"
+      );
     } else {
       setUserIdError("");
     }
@@ -100,7 +102,7 @@ const Account = () => {
         authToken,
         userId || "",
         {
-          noRun: !userId
+          noRun: !userId || Boolean(userIdError)
         }
       );
       if (error) {
@@ -116,7 +118,7 @@ const Account = () => {
     };
 
     runner();
-  }, [userId, authToken]);
+  }, [userId, authToken, user]);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const handleSnackbarClose = useCallback(() => {
