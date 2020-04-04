@@ -63,3 +63,17 @@ export const tryCheckAvailability = (
     }
   );
 };
+
+export const tryUploadIconFile = (
+  authToken: string | undefined,
+  argument: {
+    data: string;
+  }
+) => {
+  return fetcher<{ url: string }>(`${process.env.APP_ENDPOINT}/me/icon`, {
+    authToken: authToken || "",
+    noRun: !authToken,
+    body: JSON.stringify(argument),
+    method: "POST"
+  });
+};

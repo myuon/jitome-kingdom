@@ -4,7 +4,8 @@ import { useAuthCtx } from "../src/hooks/useAuth";
 import {
   useUser,
   tryCheckAvailability,
-  tryUpdateProfile
+  tryUpdateProfile,
+  tryUploadIconFile
 } from "../src/hooks/useUser";
 import {
   Typography,
@@ -55,14 +56,13 @@ const UserInitializedDialog: React.FC<{
 const ImagePreviewDialog: React.FC<{
   open: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: (data: string) => void;
   file?: File;
 }> = props => {
   const [src, setSrc] = useState<string>();
   useEffect(() => {
     const runner = () => {
       if (!props.file) return;
-      console.log(props.file);
 
       const reader = new FileReader();
       reader.onload = event => {
@@ -74,32 +74,36 @@ const ImagePreviewDialog: React.FC<{
     runner();
   }, [props.file]);
 
+  const handleSubmit = useCallback(() => {
+    if (src) {
+      props.onSubmit(src.split("base64,")[1]);
+    }
+  }, [src, props.onSubmit]);
+
   return (
     <Dialog onClose={props.onClose} open={props.open}>
       <DialogTitle>画像のプレビュー</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          <Grid container spacing={1}>
-            <Grid item>
-              <Typography>こちらでよろしいですか？</Typography>
-            </Grid>
-            <Grid item container justify="center">
-              <img
-                src={src}
-                css={css`
-                  width: 128px;
-                  height: 128px;
-                `}
-              />
-            </Grid>
+        <Grid container spacing={1}>
+          <Grid item>
+            <DialogContentText>こちらでよろしいですか？</DialogContentText>
           </Grid>
-        </DialogContentText>
+          <Grid item container justify="center">
+            <img
+              src={src}
+              css={css`
+                width: 128px;
+                height: 128px;
+              `}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={props.onClose} color="primary">
           キャンセル
         </Button>
-        <Button autoFocus onClick={props.onSubmit} color="primary">
+        <Button autoFocus onClick={handleSubmit} color="primary">
           OK
         </Button>
       </DialogActions>
@@ -116,6 +120,7 @@ const Account = () => {
     if (loaded && user) {
       setUserId(user.screen_name);
       setDisplayName(user.display_name);
+      setPictureUrl(user.picture_url);
 
       if (user.screen_name == null) {
         setInitializedUser(true);
@@ -127,11 +132,13 @@ const Account = () => {
   const [userIdError, setUserIdError] = useState<string>();
   const [displayName, setDisplayName] = useState("");
   const [userIdAvailability, setUserIdAvailability] = useState(false);
+  const [pictureUrl, setPictureUrl] = useState<string>();
 
   const handleCloseInitializedUserDialog = useCallback(() => {
     setInitializedUser(false);
     setUserId(authUser.nickname);
     setDisplayName(authUser.name);
+    setPictureUrl(authUser.picture);
   }, [authUser]);
 
   const handleChangeUserId = useCallback(async event => {
@@ -190,10 +197,10 @@ const Account = () => {
     await tryUpdateProfile(authToken, {
       screen_name: userId || "",
       display_name: displayName,
-      picture_url: authUser?.picture
+      picture_url: pictureUrl || ""
     });
     setSnackbarOpen(true);
-  }, [authToken, authUser, displayName, userId]);
+  }, [authToken, pictureUrl, displayName, userId]);
 
   const iconFileAnchor = useRef<HTMLInputElement>(null);
   const handleFileDialog = useCallback(() => {
@@ -208,7 +215,22 @@ const Account = () => {
   const handleCloseImagePreview = useCallback(() => {
     setOpenImagePreview(false);
   }, []);
-  const handleSubmitImage = useCallback(() => {}, []);
+  const handleSubmitImage = useCallback(
+    async (data: string) => {
+      const { data: resp, error } = await tryUploadIconFile(authToken, {
+        data
+      });
+      if (error) {
+        window.alert(JSON.stringify(error));
+      }
+      if (resp) {
+        setPictureUrl(resp.url);
+      }
+
+      setOpenImagePreview(false);
+    },
+    [authToken]
+  );
 
   const handleUploadImage = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -241,7 +263,6 @@ const Account = () => {
                 `}
               >
                 <div
-                  onClick={() => console.log("foo")}
                   css={css`
                     position: absolute;
                     width: inherit;
@@ -273,7 +294,7 @@ const Account = () => {
                   <PublishIcon fontSize="inherit" />
                 </IconButton>
                 <img
-                  src={authUser.picture}
+                  src={pictureUrl}
                   css={css`
                     width: inherit;
                     height: inherit;
