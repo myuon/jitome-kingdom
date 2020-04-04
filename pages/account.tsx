@@ -90,6 +90,10 @@ const Account = () => {
     }
   }, []);
 
+  const handleChangeDisplayName = useCallback(event => {
+    setDisplayName(event.target.value);
+  }, []);
+
   useEffect(() => {
     const runner = async () => {
       if (userId === user?.screen_name) {
@@ -164,6 +168,7 @@ const Account = () => {
                 placeholder="表示名を入力"
                 fullWidth
                 value={displayName}
+                onChange={handleChangeDisplayName}
                 InputLabelProps={{
                   shrink: true
                 }}
