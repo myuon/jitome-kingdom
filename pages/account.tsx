@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Navbar } from "../src/parts/Navbar";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import {
@@ -24,6 +24,7 @@ import { css } from "@emotion/core";
 import CheckIcon from "@material-ui/icons/Check";
 import ErrorIcon from "@material-ui/icons/Error";
 import CloseIcon from "@material-ui/icons/Close";
+import PublishIcon from "@material-ui/icons/Publish";
 import { green } from "@material-ui/core/colors";
 import { FooterNavigation } from "../src/parts/FooterNavigation";
 
@@ -44,6 +45,61 @@ const UserInitializedDialog: React.FC<{
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={props.handleClose} color="primary">
+          OK
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+const ImagePreviewDialog: React.FC<{
+  open: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
+  file?: File;
+}> = props => {
+  const [src, setSrc] = useState<string>();
+  useEffect(() => {
+    const runner = () => {
+      if (!props.file) return;
+      console.log(props.file);
+
+      const reader = new FileReader();
+      reader.onload = event => {
+        setSrc(event.target?.result as string);
+      };
+      reader.readAsDataURL(props.file);
+    };
+
+    runner();
+  }, [props.file]);
+
+  return (
+    <Dialog onClose={props.onClose} open={props.open}>
+      <DialogTitle>画像のプレビュー</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          <Grid container spacing={1}>
+            <Grid item>
+              <Typography>こちらでよろしいですか？</Typography>
+            </Grid>
+            <Grid item container justify="center">
+              <img
+                src={src}
+                css={css`
+                  width: 128px;
+                  height: 128px;
+                `}
+              />
+            </Grid>
+          </Grid>
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button autoFocus onClick={props.onClose} color="primary">
+          キャンセル
+        </Button>
+        <Button autoFocus onClick={props.onSubmit} color="primary">
           OK
         </Button>
       </DialogActions>
@@ -139,6 +195,31 @@ const Account = () => {
     setSnackbarOpen(true);
   }, [authToken, authUser, displayName, userId]);
 
+  const iconFileAnchor = useRef<HTMLInputElement>(null);
+  const handleFileDialog = useCallback(() => {
+    if (iconFileAnchor && iconFileAnchor.current) {
+      iconFileAnchor.current.click();
+    }
+  }, []);
+
+  const [openImagePreview, setOpenImagePreview] = useState(false);
+  const [imageFile, setImageFile] = useState<File>();
+
+  const handleCloseImagePreview = useCallback(() => {
+    setOpenImagePreview(false);
+  }, []);
+  const handleSubmitImage = useCallback(() => {}, []);
+
+  const handleUploadImage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (iconFileAnchor && iconFileAnchor.current) {
+        setOpenImagePreview(true);
+        setImageFile(iconFileAnchor.current.files?.[0]);
+      }
+    },
+    []
+  );
+
   return (
     <>
       <Navbar />
@@ -152,14 +233,54 @@ const Account = () => {
               <Typography>アイコン</Typography>
             </Grid>
             <Grid container item justify="center">
-              <img
-                src={authUser.picture}
+              <div
                 css={css`
+                  position: relative;
                   width: 128px;
                   height: 128px;
-                  border-radius: 50%;
                 `}
-              />
+              >
+                <div
+                  onClick={() => console.log("foo")}
+                  css={css`
+                    position: absolute;
+                    width: inherit;
+                    height: inherit;
+                    background-color: rgba(0, 0, 0, 0.3);
+                    border-radius: 50%;
+                  `}
+                />
+                <input
+                  accept="image/*"
+                  type="file"
+                  css={css`
+                    display: none;
+                  `}
+                  ref={iconFileAnchor}
+                  onChange={handleUploadImage}
+                />
+                <IconButton
+                  component="span"
+                  css={css`
+                    position: absolute;
+                    width: inherit;
+                    height: inherit;
+                    font-size: 48px;
+                    color: white;
+                  `}
+                  onClick={handleFileDialog}
+                >
+                  <PublishIcon fontSize="inherit" />
+                </IconButton>
+                <img
+                  src={authUser.picture}
+                  css={css`
+                    width: inherit;
+                    height: inherit;
+                    border-radius: 50%;
+                  `}
+                />
+              </div>
             </Grid>
             <Grid item>
               <TextField
@@ -243,6 +364,13 @@ const Account = () => {
         open={initializedUser ?? false}
         handleClose={handleCloseInitializedUserDialog}
         authUser={authUser}
+      />
+
+      <ImagePreviewDialog
+        open={openImagePreview}
+        onClose={handleCloseImagePreview}
+        onSubmit={handleSubmitImage}
+        file={imageFile}
       />
     </>
   );
