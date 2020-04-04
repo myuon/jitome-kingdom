@@ -22,8 +22,6 @@ export const FooterNavigation: React.FC<{ giftBadge?: number }> = props => {
         return 2;
       case "/gift":
         return 0;
-      default:
-        throw new Error("Unexpected footer navigation");
     }
   }, [router]);
   const handleChange = useCallback(
@@ -34,8 +32,6 @@ export const FooterNavigation: React.FC<{ giftBadge?: number }> = props => {
         router.push("/dashboard");
       } else if (newValue === 2) {
         router.push("/changelog");
-      } else {
-        throw new Error("Unexpected footer navigation in onChange");
       }
     },
     [router]

@@ -25,6 +25,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import ErrorIcon from "@material-ui/icons/Error";
 import CloseIcon from "@material-ui/icons/Close";
 import { green } from "@material-ui/core/colors";
+import { FooterNavigation } from "../src/parts/FooterNavigation";
 
 const UserInitializedDialog: React.FC<{
   open: boolean;
@@ -235,6 +236,8 @@ const Account = () => {
           <Typography>loading...</Typography>
         )}
       </main>
+
+      <FooterNavigation />
 
       <UserInitializedDialog
         open={initializedUser ?? false}
