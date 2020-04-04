@@ -8,7 +8,8 @@ import {
   Badge,
   Menu,
   MenuItem,
-  Avatar
+  Avatar,
+  Divider
 } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
@@ -140,6 +141,18 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
                   anchorEl={anchorEl}
                   onClose={handleClose}
                 >
+                  {user?.picture_url && (
+                    <MenuItem>
+                      <Avatar
+                        src={user?.picture_url}
+                        css={css`
+                          width: 128px;
+                          height: 128px;
+                        `}
+                      />
+                    </MenuItem>
+                  )}
+                  <Divider />
                   <MenuItem onClick={handleGotoAccount}>
                     アカウント設定
                   </MenuItem>
