@@ -9,6 +9,11 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-04",
+      content:
+        "アカウント設定画面を用意しました。画面上部のアカウントメニューから、ユーザーIDとユーザー名を設定できます。"
+    },
+    {
       date: "2020-04-01",
       content:
         "PWAに対応しました。ホーム画面に追加していつでもみょんポイントを確認してください！"

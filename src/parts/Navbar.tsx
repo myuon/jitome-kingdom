@@ -1,11 +1,13 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   AppBar,
   Toolbar,
   Typography,
   Button,
   Hidden,
-  Badge
+  Badge,
+  Menu,
+  MenuItem
 } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
@@ -35,6 +37,21 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
   }, [router]);
   const handleGotoGift = useCallback(() => {
     router.push("/gift");
+  }, [router]);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = useCallback(
+    event => {
+      setAnchorEl(event.currentTarget);
+    },
+    [setAnchorEl]
+  );
+  const handleClose = useCallback(() => {
+    setAnchorEl(null);
+  }, [setAnchorEl]);
+
+  const handleGotoAccount = useCallback(() => {
+    router.push("/account");
   }, [router]);
 
   return (
@@ -91,10 +108,23 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
             {!loaded ? (
               <>ローディング…</>
             ) : isAuthenticated ? (
-              <Button color="inherit" onClick={handleLogout}>
-                <PersonIcon />
-                ログアウト
-              </Button>
+              <>
+                <Button color="inherit" onClick={handleClick}>
+                  <PersonIcon />
+                  アカウント
+                </Button>
+                <Menu
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  anchorEl={anchorEl}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleGotoAccount}>
+                    アカウント設定
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
+                </Menu>
+              </>
             ) : (
               <Button color="inherit" onClick={tryLogin}>
                 <PersonIcon />
