@@ -7,7 +7,8 @@ import {
   Hidden,
   Badge,
   Menu,
-  MenuItem
+  MenuItem,
+  Avatar
 } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useRouter } from "next/router";
@@ -17,9 +18,18 @@ import { MultiColorBar } from "../components/MultiColorBar";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import RestoreIcon from "@material-ui/icons/Restore";
 import PersonIcon from "@material-ui/icons/Person";
+import { useUser } from "../hooks/useUser";
 
 export const Navbar: React.FC<{ giftBadge?: number }> = props => {
-  const { isAuthenticated, loaded, loginWithRedirect, logout } = useAuthCtx();
+  const {
+    authToken,
+    isAuthenticated,
+    loaded,
+    loginWithRedirect,
+    logout
+  } = useAuthCtx();
+  const { user } = useUser(authToken);
+
   const router = useRouter();
   const tryLogin = useCallback(async () => {
     if (isAuthenticated) {
@@ -110,7 +120,18 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
             ) : isAuthenticated ? (
               <>
                 <Button color="inherit" onClick={handleClick}>
-                  <PersonIcon />
+                  {user && user.picture_url ? (
+                    <Avatar
+                      src={user?.picture_url}
+                      css={css`
+                        width: 1em;
+                        height: 1em;
+                        margin-right: 0.25em;
+                      `}
+                    />
+                  ) : (
+                    <PersonIcon />
+                  )}
                   アカウント
                 </Button>
                 <Menu
