@@ -2,10 +2,10 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import { Navbar } from "../src/parts/Navbar";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import {
-  useUser,
   tryCheckAvailability,
   tryUpdateProfile,
-  tryUploadIconFile
+  tryUploadIconFile,
+  useUserCtx
 } from "../src/hooks/useUser";
 import {
   Typography,
@@ -112,8 +112,8 @@ const ImagePreviewDialog: React.FC<{
 };
 
 const Account = () => {
-  const { authToken, user: authUser } = useAuthCtx();
-  const { user, loaded } = useUser(authToken);
+  const { authToken, authUser } = useAuthCtx();
+  const { user, userLoaded: loaded, userReload } = useUserCtx();
   const [initializedUser, setInitializedUser] = useState(false);
 
   useEffect(() => {
@@ -225,11 +225,12 @@ const Account = () => {
       }
       if (resp) {
         setPictureUrl(resp.url);
+        userReload();
       }
 
       setOpenImagePreview(false);
     },
-    [authToken]
+    [authToken, userReload]
   );
 
   const handleUploadImage = useCallback(

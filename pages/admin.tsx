@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
-import { useUser, isAdmin } from "../src/hooks/useUser";
+import { isAdmin, useUserCtx } from "../src/hooks/useUser";
 import {
   Button,
   Typography,
@@ -66,7 +66,7 @@ const DistributePointDialog: React.FC<{
 
 const Admin: React.FC = props => {
   const { authToken } = useAuthCtx();
-  const { user, loaded } = useUser(authToken);
+  const { user, userLoaded: loaded } = useUserCtx();
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleOpenDialog = useCallback(() => {

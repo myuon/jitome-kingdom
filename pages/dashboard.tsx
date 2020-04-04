@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
-import { useUser } from "../src/hooks/useUser";
+import { useUserCtx } from "../src/hooks/useUser";
 import { Navbar } from "../src/parts/Navbar";
 import {
   Button,
@@ -48,7 +48,11 @@ const ResultDialog: React.FC<{
 
 const Dashboard: React.FC = () => {
   const { authToken } = useAuthCtx();
-  const { user, loaded, forceReload: forceReloadUser } = useUser(authToken);
+  const {
+    user,
+    userLoaded: loaded,
+    userReload: forceReloadUser
+  } = useUserCtx();
   const [resultDialogOpen, setResultDialogOpen] = useState(false);
   const [obtained, setObtained] = useState(0);
   const {

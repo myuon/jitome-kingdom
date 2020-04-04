@@ -109,7 +109,7 @@ export const useAuth = () => {
 
   return {
     isAuthenticated,
-    user,
+    authUser: user,
     loaded,
     authToken,
     loginWithRedirect,
@@ -119,7 +119,7 @@ export const useAuth = () => {
 
 type AuthContext = {
   isAuthenticated: boolean;
-  user: any;
+  authUser: any;
   loaded: boolean;
   authToken: string;
   loginWithRedirect: (redirectUri?: string) => Promise<void>;

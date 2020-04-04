@@ -1,4 +1,5 @@
 import { useFetch, fetcher } from "./useFetch";
+import { createContext, useContext } from "react";
 
 interface User {
   id: string;
@@ -76,4 +77,21 @@ export const tryUploadIconFile = (
     body: JSON.stringify(argument),
     method: "POST"
   });
+};
+
+type UserContext = {
+  user: User | undefined;
+  userLoaded: boolean;
+  userReload: () => void;
+};
+
+export const UserContext = createContext<UserContext | undefined>(undefined);
+
+export const UserProvider = UserContext.Provider;
+
+export const useUserCtx = (): UserContext => {
+  const ctx = useContext(UserContext);
+  if (!ctx) throw new Error("UserProvider not found");
+
+  return ctx;
 };
