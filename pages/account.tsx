@@ -118,7 +118,7 @@ const Account = () => {
     };
 
     runner();
-  }, [userId, authToken, user]);
+  }, [userId, authToken, user, userIdError]);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const handleSnackbarClose = useCallback(() => {
