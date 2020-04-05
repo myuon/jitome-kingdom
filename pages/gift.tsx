@@ -15,6 +15,7 @@ import {
   DialogActions
 } from "@material-ui/core";
 import { css } from "@emotion/core";
+import { useUserCtx } from "../src/hooks/useUser";
 
 const AcceptedDialog: React.FC<{
   message: string;
@@ -46,6 +47,7 @@ const AcceptedDialog: React.FC<{
 
 const Gift = () => {
   const { authToken } = useAuthCtx();
+  const { userReload } = useUserCtx();
   const { data: gifts, forceReload } = useGift(authToken);
 
   const [message, setMessage] = useState("");
@@ -67,8 +69,9 @@ const Gift = () => {
 
       setMessage("みょんポイントを受け取りました");
       setOpenDialog(true);
+      userReload();
     },
-    [authToken, forceReload]
+    [authToken, forceReload, userReload]
   );
 
   return (
@@ -78,9 +81,8 @@ const Gift = () => {
       <main>
         {gifts && gifts.length > 0 ? (
           gifts.map(gift => (
-            <>
+            <React.Fragment key={gift.id}>
               <div
-                key={gift.id}
                 css={css`
                   margin: 0.5em 0.25em;
                 `}
@@ -119,7 +121,7 @@ const Gift = () => {
               </div>
 
               <Divider />
-            </>
+            </React.Fragment>
           ))
         ) : (
           <div
