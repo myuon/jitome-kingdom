@@ -7,7 +7,7 @@ import {
   Badge,
   Paper
 } from "@material-ui/core";
-import RestoreIcon from "@material-ui/icons/Restore";
+import PublicIcon from "@material-ui/icons/Public";
 import PersonIcon from "@material-ui/icons/Person";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import { useRouter } from "next/router";
@@ -16,12 +16,12 @@ export const FooterNavigation: React.FC<{ giftBadge?: number }> = props => {
   const router = useRouter();
   const navigationValue = useMemo(() => {
     switch (router.route) {
-      case "/dashboard":
-        return 1;
-      case "/changelog":
-        return 2;
       case "/gift":
         return 0;
+      case "/dashboard":
+        return 1;
+      case "/janken":
+        return 2;
     }
   }, [router]);
   const handleChange = useCallback(
@@ -31,7 +31,7 @@ export const FooterNavigation: React.FC<{ giftBadge?: number }> = props => {
       } else if (newValue === 1) {
         router.push("/dashboard");
       } else if (newValue === 2) {
-        router.push("/changelog");
+        router.push("/janken");
       }
     },
     [router]
@@ -61,7 +61,7 @@ export const FooterNavigation: React.FC<{ giftBadge?: number }> = props => {
               }
             />
             <BottomNavigationAction label="マイページ" icon={<PersonIcon />} />
-            <BottomNavigationAction label="更新履歴" icon={<RestoreIcon />} />
+            <BottomNavigationAction label="じゃんけん" icon={<PublicIcon />} />
           </BottomNavigation>
         </Paper>
       </Hidden>
