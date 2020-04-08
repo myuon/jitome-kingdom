@@ -10,7 +10,13 @@ import {
   Snackbar,
   IconButton
 } from "@material-ui/core";
-import { tryCreateJanken, useJanken, JankenHand } from "../src/hooks/useJanken";
+import {
+  tryCreateJanken,
+  useJanken,
+  JankenHand,
+  displayJankenHand,
+  displayJankenStatus
+} from "../src/hooks/useJanken";
 import CloseIcon from "@material-ui/icons/Close";
 import { RadioButtonGroup } from "../src/components/RadioButtonGroup";
 
@@ -92,7 +98,7 @@ const Janken: React.FC = () => {
                   onClick={handleSubmitJanken}
                   disabled={!selectedHand || !jankenAvailable}
                 >
-                  5みょんポイント払ってじゃんけん！
+                  5 みょんポイント払ってじゃんけん！
                 </Button>
               </Grid>
             </Grid>
@@ -101,26 +107,19 @@ const Janken: React.FC = () => {
             <Typography variant="h6">じゃんけん履歴</Typography>
             {jankenEvents?.events.map(event => (
               <div key={event.id}>
-                <Typography>
-                  出した手:{" "}
-                  {event.hand === "rock"
-                    ? "グー"
-                    : event.hand === "paper"
-                    ? "パー"
-                    : event.hand === "scissors"
-                    ? "チョキ"
-                    : undefined}
-                </Typography>
-                <Typography>
-                  結果:{" "}
-                  {event.status === "ready"
-                    ? "マッチング中…"
-                    : event.status === "won"
-                    ? "あなたの勝ち"
-                    : event.status === "lost"
-                    ? "あなたの負け"
-                    : undefined}
-                </Typography>
+                {event.status === "ready" ? (
+                  <Typography>マッチング中…</Typography>
+                ) : (
+                  <>
+                    <Typography>
+                      {displayJankenHand(event.hand)}を出して
+                      {displayJankenStatus(event.status)}でした！
+                    </Typography>
+                    <Typography>
+                      対戦相手: @{event.opponent_user_screen_name} さん
+                    </Typography>
+                  </>
+                )}
                 <Typography variant="caption">
                   {new Date(event.created_at * 1000).toLocaleString()}
                 </Typography>
