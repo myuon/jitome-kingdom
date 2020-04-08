@@ -70,7 +70,7 @@ const Janken: React.FC = () => {
               注意:
               マッチング中の場合新たにじゃんけんすることは出来ません。一定時間経ってもマッチングできなかった場合は不戦勝となります。
             </Typography>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} direction="column">
               <Grid item>
                 <RadioButtonGroup
                   datalist={[
@@ -105,26 +105,32 @@ const Janken: React.FC = () => {
           </Grid>
           <Grid item>
             <Typography variant="h6">じゃんけん履歴</Typography>
-            {jankenEvents?.events.map(event => (
-              <div key={event.id}>
-                {event.status === "ready" ? (
-                  <Typography>マッチング中…</Typography>
-                ) : (
-                  <>
-                    <Typography>
-                      {displayJankenHand(event.hand)}を出して
-                      {displayJankenStatus(event.status)}でした！
-                    </Typography>
-                    <Typography>
-                      対戦相手: @{event.opponent_user_screen_name} さん
-                    </Typography>
-                  </>
-                )}
-                <Typography variant="caption">
-                  {new Date(event.created_at * 1000).toLocaleString()}
-                </Typography>
-              </div>
-            ))}
+            <Grid container spacing={2} direction="column">
+              {jankenEvents?.events.map(event => (
+                <Grid item key={event.id}>
+                  {event.status === "ready" ? (
+                    <Typography>マッチング中…</Typography>
+                  ) : (
+                    <>
+                      <Typography>
+                        {displayJankenHand(event.hand)}を出して
+                        {displayJankenStatus(event.status)}でした！
+                      </Typography>
+                      <Typography>
+                        対戦相手:{" "}
+                        {event.opponent_user_screen_name
+                          ? `@${event.opponent_user_screen_name}`
+                          : "名無し"}{" "}
+                        さん
+                      </Typography>
+                    </>
+                  )}
+                  <Typography variant="caption">
+                    {new Date(event.created_at * 1000).toLocaleString()}
+                  </Typography>
+                </Grid>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
       </main>
