@@ -17,6 +17,8 @@ import { css } from "@emotion/core";
 import { NumberBoard } from "../src/components/NumberBoard";
 import { useGift } from "../src/hooks/useGift";
 import { FooterNavigation } from "../src/parts/FooterNavigation";
+import RestoreIcon from "@material-ui/icons/Restore";
+import { useRouter } from "next/router";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -47,6 +49,7 @@ const ResultDialog: React.FC<{
 };
 
 const Dashboard: React.FC = () => {
+  const router = useRouter();
   const { authToken } = useAuthCtx();
   const {
     user,
@@ -83,11 +86,25 @@ const Dashboard: React.FC = () => {
 
   const { data: gifts } = useGift(authToken);
 
+  const handleGotoChangelog = useCallback(() => {
+    router.push(`/changelog`);
+  }, [router]);
+
   return (
     <>
       <Navbar giftBadge={gifts?.length} />
 
       <main>
+        <div
+          css={css`
+            display: flex;
+            justify-content: flex-end;
+          `}
+        >
+          <Button startIcon={<RestoreIcon />} onClick={handleGotoChangelog}>
+            更新履歴
+          </Button>
+        </div>
         {loaded && user ? (
           <div
             css={css`

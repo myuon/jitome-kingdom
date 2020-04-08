@@ -17,9 +17,9 @@ import { useAuthCtx } from "../hooks/useAuth";
 import Link from "next/link";
 import { MultiColorBar } from "../components/MultiColorBar";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
-import RestoreIcon from "@material-ui/icons/Restore";
 import PersonIcon from "@material-ui/icons/Person";
 import { useUser } from "../hooks/useUser";
+import PublicIcon from "@material-ui/icons/Public";
 
 export const Navbar: React.FC<{ giftBadge?: number }> = props => {
   const {
@@ -43,8 +43,8 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
     logout(window.origin);
   }, [logout]);
 
-  const handleGotoChangelog = useCallback(() => {
-    router.push("/changelog");
+  const handleGotoJanken = useCallback(() => {
+    router.push("/janken");
   }, [router]);
   const handleGotoGift = useCallback(() => {
     router.push("/gift");
@@ -83,16 +83,16 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
             <div
               css={css`
                 flex-grow: 1;
+
+                /* aに直接スタイルを設定するとおかしくなるのでとりあえずここで */
+                a {
+                  text-decoration: none;
+                  color: inherit;
+                }
               `}
             >
               <Link href={isAuthenticated ? "/dashboard" : "/"}>
-                <a
-                  href="javascript:void(0);"
-                  css={css`
-                    color: inherit;
-                    text-decoration: none;
-                  `}
-                >
+                <a>
                   <Typography variant="h6">Jitome Kingdom</Typography>
                 </a>
               </Link>
@@ -110,9 +110,9 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
                   </Badge>
                 </Button>
 
-                <Button color="inherit" onClick={handleGotoChangelog}>
-                  <RestoreIcon />
-                  更新履歴
+                <Button color="inherit" onClick={handleGotoJanken}>
+                  <PublicIcon />
+                  じゃんけん
                 </Button>
               </Hidden>
             )}
