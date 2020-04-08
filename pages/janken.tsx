@@ -60,6 +60,10 @@ const Janken: React.FC = () => {
           </Grid>
           <Grid item>
             <Typography variant="h6">じゃんけんで遊ぶ！</Typography>
+            <Typography variant="caption">
+              注意:
+              マッチング中の場合新たにじゃんけんすることは出来ません。一定時間経ってもマッチングできなかった場合は不戦勝となります。
+            </Typography>
             <Grid container spacing={2}>
               <Grid item>
                 <RadioButtonGroup
@@ -86,7 +90,7 @@ const Janken: React.FC = () => {
                   color="primary"
                   variant="contained"
                   onClick={handleSubmitJanken}
-                  disabled={!selectedHand}
+                  disabled={!selectedHand || !jankenAvailable}
                 >
                   5みょんポイント払ってじゃんけん！
                 </Button>
