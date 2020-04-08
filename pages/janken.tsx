@@ -1,29 +1,47 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useGift } from "../src/hooks/useGift";
 import { Navbar } from "../src/parts/Navbar";
 import { FooterNavigation } from "../src/parts/FooterNavigation";
-import { Typography, Button, Grid } from "@material-ui/core";
-import { tryCreateJanken, useJanken } from "../src/hooks/useJanken";
+import {
+  Typography,
+  Button,
+  Grid,
+  Snackbar,
+  IconButton
+} from "@material-ui/core";
+import { tryCreateJanken, useJanken, JankenHand } from "../src/hooks/useJanken";
+import CloseIcon from "@material-ui/icons/Close";
 
 const Janken: React.FC = () => {
   const { authToken } = useAuthCtx();
   const { data: gifts } = useGift(authToken);
-  const handleRock = useCallback(async () => {
-    await tryCreateJanken(authToken, {
-      hand: "rock"
-    });
-  }, [authToken]);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const handleSnackbarClose = useCallback(() => {
+    setSnackbarOpen(false);
+  }, []);
+
+  const handleSubmitJanken = useCallback(
+    async (hand: JankenHand) => {
+      await tryCreateJanken(authToken, {
+        hand
+      });
+
+      handleSnackbarClose();
+    },
+    [authToken, handleSnackbarClose]
+  );
+
+  const handleRock = useCallback(() => {
+    handleSubmitJanken("rock");
+  }, [handleSubmitJanken]);
   const handleScissors = useCallback(async () => {
-    await tryCreateJanken(authToken, {
-      hand: "scissors"
-    });
-  }, [authToken]);
+    handleSubmitJanken("scissors");
+  }, [handleSubmitJanken]);
   const handlePaper = useCallback(async () => {
-    await tryCreateJanken(authToken, {
-      hand: "paper"
-    });
-  }, [authToken]);
+    handleSubmitJanken("paper");
+  }, [handleSubmitJanken]);
 
   const { data: jankenEvents } = useJanken(authToken);
   const jankenAvailable = useMemo(() => {
@@ -55,7 +73,7 @@ const Janken: React.FC = () => {
                   onClick={handleRock}
                   disabled={!jankenAvailable}
                 >
-                  👊グー
+                  👊 グー
                 </Button>
               </Grid>
               <Grid item>
@@ -65,7 +83,7 @@ const Janken: React.FC = () => {
                   onClick={handleScissors}
                   disabled={!jankenAvailable}
                 >
-                  ✌チョキ
+                  ✌ チョキ
                 </Button>
               </Grid>
               <Grid item>
@@ -75,7 +93,7 @@ const Janken: React.FC = () => {
                   onClick={handlePaper}
                   disabled={!jankenAvailable}
                 >
-                  ✋パー
+                  ✋ パー
                 </Button>
               </Grid>
             </Grid>
@@ -84,8 +102,26 @@ const Janken: React.FC = () => {
             <Typography variant="h6">じゃんけん履歴</Typography>
             {jankenEvents?.events.map(event => (
               <div key={event.id}>
-                <Typography>出した手: {event.hand}</Typography>
-                <Typography>結果: {event.status}</Typography>
+                <Typography>
+                  出した手:{" "}
+                  {event.hand === "rock"
+                    ? "グー"
+                    : event.hand === "paper"
+                    ? "パー"
+                    : event.hand === "scissors"
+                    ? "チョキ"
+                    : undefined}
+                </Typography>
+                <Typography>
+                  結果:{" "}
+                  {event.status === "ready"
+                    ? "マッチング中…"
+                    : event.status === "won"
+                    ? "あなたの勝ち"
+                    : event.status === "lost"
+                    ? "あなたの負け"
+                    : undefined}
+                </Typography>
                 <Typography variant="caption">
                   {new Date(event.created_at * 1000).toLocaleString()}
                 </Typography>
@@ -96,6 +132,25 @@ const Janken: React.FC = () => {
       </main>
 
       <FooterNavigation giftBadge={gifts?.length} />
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={snackbarOpen}
+        onClose={handleSnackbarClose}
+        message={"じゃんけんを送信しました"}
+        action={
+          <IconButton
+            size="small"
+            color="inherit"
+            onClick={handleSnackbarClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      />
     </>
   );
 };
