@@ -67,8 +67,7 @@ const Janken: React.FC = () => {
           <Grid item>
             <Typography variant="h6">じゃんけんで遊ぶ！</Typography>
             <Typography variant="caption">
-              注意:
-              マッチング中の場合新たにじゃんけんすることは出来ません。一定時間経ってもマッチングできなかった場合は不戦勝となります。
+              注意: マッチング中の場合新たにじゃんけんすることは出来ません。
             </Typography>
             <Grid container spacing={2} direction="column">
               <Grid item>

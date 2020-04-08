@@ -9,6 +9,11 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-09",
+      content:
+        "じゃんけん機能を実装しました。ユーザー同士で戦ってポイントを奪い合いましょう！"
+    },
+    {
       date: "2020-04-04",
       content:
         "アカウント設定画面を用意しました。画面上部のアカウントメニューから、ユーザー名、ユーザーID、アイコンが設定できます。"
