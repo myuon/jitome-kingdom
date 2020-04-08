@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useGift } from "../src/hooks/useGift";
 import { Navbar } from "../src/parts/Navbar";
 import { FooterNavigation } from "../src/parts/FooterNavigation";
 import { Typography, Button, Grid } from "@material-ui/core";
-import { tryCreateJanken } from "../src/hooks/useJanken";
+import { tryCreateJanken, useJanken } from "../src/hooks/useJanken";
 
 const Janken: React.FC = () => {
   const { authToken } = useAuthCtx();
@@ -25,6 +25,14 @@ const Janken: React.FC = () => {
     });
   }, [authToken]);
 
+  const { data: jankenEvents } = useJanken(authToken);
+  const jankenAvailable = useMemo(() => {
+    return (
+      (jankenEvents?.events.filter(event => event.status === "ready").length ??
+        -1) === 0
+    );
+  }, [jankenEvents]);
+
   return (
     <>
       <Navbar giftBadge={gifts?.length} />
@@ -41,7 +49,12 @@ const Janken: React.FC = () => {
             <Typography variant="h6">じゃんけんで遊ぶ！</Typography>
             <Grid container spacing={1}>
               <Grid item>
-                <Button variant="outlined" color="primary" onClick={handleRock}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleRock}
+                  disabled={!jankenAvailable}
+                >
                   👊グー
                 </Button>
               </Grid>
@@ -50,6 +63,7 @@ const Janken: React.FC = () => {
                   variant="outlined"
                   color="primary"
                   onClick={handleScissors}
+                  disabled={!jankenAvailable}
                 >
                   ✌チョキ
                 </Button>
@@ -59,11 +73,24 @@ const Janken: React.FC = () => {
                   variant="outlined"
                   color="primary"
                   onClick={handlePaper}
+                  disabled={!jankenAvailable}
                 >
                   ✋パー
                 </Button>
               </Grid>
             </Grid>
+          </Grid>
+          <Grid item>
+            <Typography variant="h6">じゃんけん履歴</Typography>
+            {jankenEvents?.events.map(event => (
+              <div key={event.id}>
+                <Typography>出した手: {event.hand}</Typography>
+                <Typography>結果: {event.status}</Typography>
+                <Typography variant="caption">
+                  {new Date(event.created_at * 1000).toLocaleString()}
+                </Typography>
+              </div>
+            ))}
           </Grid>
         </Grid>
       </main>

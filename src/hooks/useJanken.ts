@@ -1,6 +1,26 @@
-import { fetcher } from "./useFetch";
+import { fetcher, useFetch } from "./useFetch";
 
 export type JankenHand = "rock" | "paper" | "scissors";
+
+export type JankenStatus = "ready" | "won" | "lost";
+
+export interface JankenEvent {
+  id: string;
+  user_id: string;
+  hand: JankenHand;
+  created_at: number;
+  status: JankenStatus;
+}
+
+export const useJanken = (authToken: string) => {
+  return useFetch<{ events: JankenEvent[] }>(
+    `${process.env.APP_ENDPOINT}/janken`,
+    {
+      authToken,
+      noRun: !authToken
+    }
+  );
+};
 
 export const tryCreateJanken = async (
   authToken: string,
