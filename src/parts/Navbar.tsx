@@ -18,18 +18,12 @@ import Link from "next/link";
 import { MultiColorBar } from "../components/MultiColorBar";
 import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import PersonIcon from "@material-ui/icons/Person";
-import { useUser } from "../hooks/useUser";
+import { useUserCtx } from "../hooks/useUser";
 import PublicIcon from "@material-ui/icons/Public";
 
 export const Navbar: React.FC<{ giftBadge?: number }> = props => {
-  const {
-    authToken,
-    isAuthenticated,
-    loaded,
-    loginWithRedirect,
-    logout
-  } = useAuthCtx();
-  const { user } = useUser(authToken);
+  const { isAuthenticated, loaded, loginWithRedirect, logout } = useAuthCtx();
+  const { user } = useUserCtx();
 
   const router = useRouter();
   const tryLogin = useCallback(async () => {

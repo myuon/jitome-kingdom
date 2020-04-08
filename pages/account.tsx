@@ -200,7 +200,8 @@ const Account = () => {
       picture_url: pictureUrl || ""
     });
     setSnackbarOpen(true);
-  }, [authToken, pictureUrl, displayName, userId]);
+    userReload();
+  }, [authToken, pictureUrl, displayName, userId, userReload]);
 
   const iconFileAnchor = useRef<HTMLInputElement>(null);
   const handleFileDialog = useCallback(() => {
@@ -225,12 +226,11 @@ const Account = () => {
       }
       if (resp) {
         setPictureUrl(resp.url);
-        userReload();
       }
 
       setOpenImagePreview(false);
     },
-    [authToken, userReload]
+    [authToken]
   );
 
   const handleUploadImage = useCallback(
