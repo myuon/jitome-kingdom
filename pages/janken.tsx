@@ -57,7 +57,7 @@ const Janken: React.FC = () => {
       <Navbar giftBadge={gifts?.length} />
 
       <main>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} direction="column">
           <Grid item>
             <Typography variant="h6">みょんポイントじゃんけん</Typography>
             <Typography>
