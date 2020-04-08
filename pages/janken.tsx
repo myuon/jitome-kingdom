@@ -12,44 +12,39 @@ import {
 } from "@material-ui/core";
 import { tryCreateJanken, useJanken, JankenHand } from "../src/hooks/useJanken";
 import CloseIcon from "@material-ui/icons/Close";
+import { RadioButtonGroup } from "../src/components/RadioButtonGroup";
 
 const Janken: React.FC = () => {
   const { authToken } = useAuthCtx();
   const { data: gifts } = useGift(authToken);
+  const { data: jankenEvents, forceReload } = useJanken(authToken);
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const handleSnackbarClose = useCallback(() => {
     setSnackbarOpen(false);
   }, []);
 
-  const handleSubmitJanken = useCallback(
-    async (hand: JankenHand) => {
-      await tryCreateJanken(authToken, {
-        hand
-      });
+  const [selectedHand, setSelectedHand] = useState<string>();
+  const handleSubmitJanken = useCallback(async () => {
+    if (!selectedHand) return;
 
-      handleSnackbarClose();
-    },
-    [authToken, handleSnackbarClose]
-  );
+    await tryCreateJanken(authToken, {
+      hand: selectedHand as JankenHand
+    });
+    setSnackbarOpen(true);
+    forceReload();
+  }, [authToken, setSnackbarOpen, selectedHand, forceReload]);
 
-  const handleRock = useCallback(() => {
-    handleSubmitJanken("rock");
-  }, [handleSubmitJanken]);
-  const handleScissors = useCallback(async () => {
-    handleSubmitJanken("scissors");
-  }, [handleSubmitJanken]);
-  const handlePaper = useCallback(async () => {
-    handleSubmitJanken("paper");
-  }, [handleSubmitJanken]);
-
-  const { data: jankenEvents } = useJanken(authToken);
   const jankenAvailable = useMemo(() => {
     return (
       (jankenEvents?.events.filter(event => event.status === "ready").length ??
         -1) === 0
     );
   }, [jankenEvents]);
+
+  const handleChangeSelectedHand = useCallback((hand: string) => {
+    setSelectedHand(hand);
+  }, []);
 
   return (
     <>
@@ -65,35 +60,35 @@ const Janken: React.FC = () => {
           </Grid>
           <Grid item>
             <Typography variant="h6">じゃんけんで遊ぶ！</Typography>
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
               <Grid item>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleRock}
+                <RadioButtonGroup
+                  datalist={[
+                    {
+                      label: "👊 グー",
+                      key: "rock"
+                    },
+                    {
+                      label: "✌ チョキ",
+                      key: "scissors"
+                    },
+                    {
+                      label: "✋ パー",
+                      key: "paper"
+                    }
+                  ]}
+                  onChange={handleChangeSelectedHand}
                   disabled={!jankenAvailable}
-                >
-                  👊 グー
-                </Button>
+                />
               </Grid>
               <Grid item>
                 <Button
-                  variant="outlined"
                   color="primary"
-                  onClick={handleScissors}
-                  disabled={!jankenAvailable}
+                  variant="contained"
+                  onClick={handleSubmitJanken}
+                  disabled={!selectedHand}
                 >
-                  ✌ チョキ
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={handlePaper}
-                  disabled={!jankenAvailable}
-                >
-                  ✋ パー
+                  5みょんポイント払ってじゃんけん！
                 </Button>
               </Grid>
             </Grid>
