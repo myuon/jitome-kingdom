@@ -19,9 +19,11 @@ import {
 } from "../src/hooks/useJanken";
 import CloseIcon from "@material-ui/icons/Close";
 import { RadioButtonGroup } from "../src/components/RadioButtonGroup";
+import { useUserCtx } from "../src/hooks/useUser";
 
 const Janken: React.FC = () => {
   const { authToken } = useAuthCtx();
+  const { userReload } = useUserCtx();
   const { data: gifts } = useGift(authToken);
   const { data: jankenEvents, forceReload } = useJanken(authToken);
 
@@ -39,7 +41,8 @@ const Janken: React.FC = () => {
     });
     setSnackbarOpen(true);
     forceReload();
-  }, [authToken, setSnackbarOpen, selectedHand, forceReload]);
+    userReload();
+  }, [authToken, setSnackbarOpen, selectedHand, forceReload, userReload]);
 
   const jankenAvailable = useMemo(() => {
     return (
