@@ -9,6 +9,11 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-11",
+      content:
+        "じゃんけん送信後、ページをリロードしなくても定期的にデータを取得するようにしました。"
+    },
+    {
       date: "2020-04-09",
       content:
         "じゃんけん機能を実装しました。ユーザー同士で戦ってポイントを奪い合いましょう！"

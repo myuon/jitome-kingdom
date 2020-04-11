@@ -21,6 +21,24 @@ import CloseIcon from "@material-ui/icons/Close";
 import { RadioButtonGroup } from "../src/components/RadioButtonGroup";
 import { useUserCtx } from "../src/hooks/useUser";
 
+const retryRunner = (handler: () => void, maxRetryCount: number) => {
+  let waitTime = 1000;
+  let counter = maxRetryCount;
+  const fn = () => {
+    counter--;
+    waitTime *= 2;
+
+    if (counter < 0) {
+      return;
+    }
+
+    handler();
+    setTimeout(fn, waitTime);
+  };
+
+  setTimeout(fn, waitTime);
+};
+
 const Janken: React.FC = () => {
   const { authToken } = useAuthCtx();
   const { userReload } = useUserCtx();
@@ -42,6 +60,10 @@ const Janken: React.FC = () => {
     setSnackbarOpen(true);
     forceReload();
     userReload();
+
+    retryRunner(() => {
+      forceReload();
+    }, 30);
   }, [authToken, setSnackbarOpen, selectedHand, forceReload, userReload]);
 
   const jankenAvailable = useMemo(() => {
