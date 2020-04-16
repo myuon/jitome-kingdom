@@ -12,7 +12,7 @@ export const displayJankenHand = (hand: JankenHand) => {
     : undefined;
 };
 
-export type JankenStatus = "ready" | "won" | "lost";
+export type JankenStatus = "ready" | "won" | "lost" | "timeout";
 
 export const displayJankenStatus = (status: JankenStatus) => {
   return status === "ready"
@@ -21,6 +21,8 @@ export const displayJankenStatus = (status: JankenStatus) => {
     ? "あなたの勝ち"
     : status === "lost"
     ? "あなたの負け"
+    : status === "timeout"
+    ? "不戦勝"
     : undefined;
 };
 
@@ -36,7 +38,7 @@ export interface JankenEvent {
 
 export const useJanken = (authToken: string) => {
   return useFetch<{ events: JankenEvent[] }>(
-    `${process.env.APP_ENDPOINT}/janken`,
+    `${process.env.APP_ENDPOINT}/janken?limit=10`,
     {
       authToken,
       noRun: !authToken
