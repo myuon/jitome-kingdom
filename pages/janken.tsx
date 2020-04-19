@@ -128,7 +128,7 @@ const Janken: React.FC = () => {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="h6">じゃんけん履歴</Typography>
+            <Typography variant="h6">直近のじゃんけん履歴</Typography>
             <Grid container spacing={2} direction="column">
               {jankenEvents?.events.map(event => (
                 <Grid item key={event.id}>

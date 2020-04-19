@@ -38,7 +38,7 @@ export interface JankenEvent {
 
 export const useJanken = (authToken: string) => {
   return useFetch<{ events: JankenEvent[] }>(
-    `${process.env.APP_ENDPOINT}/janken?limit=10`,
+    `${process.env.APP_ENDPOINT}/janken?limit=5`,
     {
       authToken,
       noRun: !authToken
