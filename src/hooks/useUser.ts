@@ -17,7 +17,7 @@ export const isAdmin = (user: User): boolean => {
   );
 };
 
-export const useUser = (authToken: string | undefined) => {
+export const useMe = (authToken: string | undefined) => {
   const { data, loaded, forceReload } = useFetch<User>(
     `${process.env.APP_ENDPOINT}/me`,
     {
@@ -31,6 +31,12 @@ export const useUser = (authToken: string | undefined) => {
     forceReload,
     loaded
   };
+};
+
+export const useUser = (screen_name: string) => {
+  return useFetch<User>(`${process.env.APP_ENDPOINT}/users/${screen_name}`, {
+    noRun: !screen_name
+  });
 };
 
 export const tryUpdateProfile = (
