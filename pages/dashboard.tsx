@@ -195,11 +195,7 @@ const Dashboard: React.FC = () => {
                       ? `${window.origin}/user/${user.screen_name}`
                       : `${window.origin}`
                   }`}
-                  color="inherit"
-                  variant="outlined"
-                  css={css`
-                    color: rgb(29, 161, 242);
-                  `}
+                  variant="contained"
                 >
                   ツイート
                 </Button>

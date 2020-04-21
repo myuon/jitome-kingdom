@@ -159,7 +159,10 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
                       <Divider />
                     </>
                   )}
-                  <MenuItem onClick={handleGotoUserPage} disabled>
+                  <MenuItem
+                    onClick={handleGotoUserPage}
+                    disabled={!user?.screen_name}
+                  >
                     <div
                       css={css`
                         display: flex;
