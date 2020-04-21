@@ -19,6 +19,7 @@ import { useGift } from "../src/hooks/useGift";
 import { FooterNavigation } from "../src/parts/FooterNavigation";
 import RestoreIcon from "@material-ui/icons/Restore";
 import { useRouter } from "next/router";
+import Alert from "@material-ui/lab/Alert";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -90,9 +91,25 @@ const Dashboard: React.FC = () => {
     router.push(`/changelog`);
   }, [router]);
 
+  const handleGotoAccount = useCallback(() => {
+    router.push("/account");
+  }, [router]);
+
   return (
     <>
       <Navbar giftBadge={gifts?.length} />
+      {!user?.screen_name && (
+        <Alert
+          severity="info"
+          action={
+            <Button color="inherit" size="small" onClick={handleGotoAccount}>
+              設定
+            </Button>
+          }
+        >
+          ユーザーIDを設定して、ユーザーページをSNSで共有しましょう
+        </Alert>
+      )}
 
       <main>
         <div
