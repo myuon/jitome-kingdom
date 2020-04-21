@@ -59,6 +59,10 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
     router.push("/account");
   }, [router]);
 
+  const handleGotoUserPage = useCallback(() => {
+    router.push(`/user/${user?.screen_name}`);
+  }, [router, user]);
+
   return (
     <>
       <div
@@ -136,17 +140,35 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
                   onClose={handleClose}
                 >
                   {user?.picture_url && (
-                    <MenuItem>
-                      <Avatar
-                        src={user?.picture_url}
+                    <>
+                      <div
                         css={css`
-                          width: 128px;
-                          height: 128px;
+                          display: flex;
+                          justify-content: center;
+                          margin: 3px;
                         `}
-                      />
-                    </MenuItem>
+                      >
+                        <Avatar
+                          src={user?.picture_url}
+                          css={css`
+                            width: 128px;
+                            height: 128px;
+                          `}
+                        />
+                      </div>
+                      <Divider />
+                    </>
                   )}
-                  <Divider />
+                  <MenuItem onClick={handleGotoUserPage} disabled>
+                    <div
+                      css={css`
+                        display: flex;
+                        flex-direction: column;
+                      `}
+                    >
+                      ユーザーページ
+                    </div>
+                  </MenuItem>
                   <MenuItem onClick={handleGotoAccount}>
                     アカウント設定
                   </MenuItem>

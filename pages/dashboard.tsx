@@ -171,7 +171,13 @@ const Dashboard: React.FC = () => {
               </Grid>
               <Grid item>
                 <Button
-                  href={`https://twitter.com/share?text=現在${user?.point}みょんポイントを保持しています！&url=${window.origin}/user/${user.screen_name}`}
+                  href={`https://twitter.com/share?text=現在${
+                    user?.point
+                  }みょんポイントを保持しています！&url=${
+                    user.screen_name
+                      ? `${window.origin}/user/${user.screen_name}`
+                      : `${window.origin}`
+                  }`}
                   color="inherit"
                   variant="outlined"
                   css={css`
