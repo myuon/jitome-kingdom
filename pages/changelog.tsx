@@ -9,6 +9,11 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-22",
+      content:
+        "ユーザーページをシェアできるようになりました。ジト目王国民カードを友達に見せびらかしましょう。"
+    },
+    {
       date: "2020-04-19",
       content: "じゃんけん履歴の表示を直近のものだけに限定するようにしました。"
     },
