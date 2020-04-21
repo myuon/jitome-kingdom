@@ -6,7 +6,7 @@ import { Theme } from "../src/components/Theme";
 import { useAuth, AuthProvider } from "../src/hooks/useAuth";
 import Head from "next/head";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
-import { useUser, UserProvider } from "../src/hooks/useUser";
+import { useMe, UserProvider } from "../src/hooks/useUser";
 
 const theme: Theme = {
   palette: {
@@ -40,7 +40,7 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
   pageProps
 }) => {
   const ctx = useAuth();
-  const userCtx = useUser(ctx.authToken);
+  const userCtx = useMe(ctx.authToken);
 
   return (
     <ThemeProvider theme={theme}>
