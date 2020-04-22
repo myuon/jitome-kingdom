@@ -2,7 +2,11 @@ import React, { useState, useCallback } from "react";
 import { ButtonGroup, Button } from "@material-ui/core";
 
 export const RadioButtonGroup: React.FC<{
-  datalist: { label: string; key: string }[];
+  datalist: {
+    label: React.ReactNode;
+    startIcon?: React.ReactNode;
+    key: string;
+  }[];
   onChange: (key: string) => void;
   disabled?: boolean;
 }> = props => {
@@ -23,6 +27,7 @@ export const RadioButtonGroup: React.FC<{
           color="primary"
           variant={active !== data.key ? "contained" : undefined}
           onClick={() => handleClick(data.key)}
+          startIcon={data.startIcon}
         >
           {data.label}
         </Button>

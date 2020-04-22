@@ -20,6 +20,12 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import { RadioButtonGroup } from "../src/components/RadioButtonGroup";
 import { useUserCtx } from "../src/hooks/useUser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHandRock,
+  faHandPeace,
+  faHandPaper
+} from "@fortawesome/free-solid-svg-icons";
 
 const retryRunner = (handler: () => void, maxRetryCount: number) => {
   let waitTime = 1000;
@@ -99,15 +105,18 @@ const Janken: React.FC = () => {
                 <RadioButtonGroup
                   datalist={[
                     {
-                      label: "👊 グー",
+                      label: "グー",
+                      startIcon: <FontAwesomeIcon icon={faHandRock} />,
                       key: "rock"
                     },
                     {
-                      label: "✌ チョキ",
+                      label: "チョキ",
+                      startIcon: <FontAwesomeIcon icon={faHandPeace} />,
                       key: "scissors"
                     },
                     {
-                      label: "✋ パー",
+                      label: "パー",
+                      startIcon: <FontAwesomeIcon icon={faHandPaper} />,
                       key: "paper"
                     }
                   ]}
