@@ -10,6 +10,10 @@ export const dataChangelog = {
   history: [
     {
       date: "2020-04-22",
+      content: "prerenderの見栄えを良くしました。"
+    },
+    {
+      date: "2020-04-22",
       content:
         "ユーザーページをシェアできるようになりました。ジト目王国民カードを友達に見せびらかしましょう。"
     },
