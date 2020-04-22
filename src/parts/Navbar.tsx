@@ -140,7 +140,7 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
                   onClose={handleClose}
                 >
                   {user?.picture_url && (
-                    <>
+                    <div>
                       <div
                         css={css`
                           display: flex;
@@ -157,7 +157,7 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
                         />
                       </div>
                       <Divider />
-                    </>
+                    </div>
                   )}
                   <MenuItem
                     onClick={handleGotoUserPage}
