@@ -114,75 +114,77 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
                 </Button>
               </Hidden>
             )}
-            {!loaded ? (
-              <>ローディング…</>
-            ) : isAuthenticated ? (
-              <>
-                <Button color="inherit" onClick={handleClick}>
-                  {user && user.picture_url ? (
-                    <Avatar
-                      src={user?.picture_url}
-                      css={css`
-                        width: 1em;
-                        height: 1em;
-                        margin-right: 0.25em;
-                      `}
-                    />
-                  ) : (
-                    <PersonIcon />
-                  )}
-                  アカウント
-                </Button>
-                <Menu
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                >
-                  {user?.picture_url && (
-                    <div>
+            {loaded ? (
+              isAuthenticated ? (
+                <>
+                  <Button color="inherit" onClick={handleClick}>
+                    {user && user.picture_url ? (
+                      <Avatar
+                        src={user?.picture_url}
+                        css={css`
+                          width: 1em;
+                          height: 1em;
+                          margin-right: 0.25em;
+                        `}
+                      />
+                    ) : (
+                      <PersonIcon />
+                    )}
+                    アカウント
+                  </Button>
+                  <Menu
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                  >
+                    {user?.picture_url && (
+                      <div>
+                        <div
+                          css={css`
+                            display: flex;
+                            justify-content: center;
+                            margin: 3px;
+                          `}
+                        >
+                          <Avatar
+                            src={user?.picture_url}
+                            css={css`
+                              width: 128px;
+                              height: 128px;
+                            `}
+                          />
+                        </div>
+                        <Divider />
+                      </div>
+                    )}
+                    <MenuItem
+                      onClick={handleGotoUserPage}
+                      disabled={!user?.screen_name}
+                    >
                       <div
                         css={css`
                           display: flex;
-                          justify-content: center;
-                          margin: 3px;
+                          flex-direction: column;
                         `}
                       >
-                        <Avatar
-                          src={user?.picture_url}
-                          css={css`
-                            width: 128px;
-                            height: 128px;
-                          `}
-                        />
+                        ユーザーページ
                       </div>
-                      <Divider />
-                    </div>
-                  )}
-                  <MenuItem
-                    onClick={handleGotoUserPage}
-                    disabled={!user?.screen_name}
-                  >
-                    <div
-                      css={css`
-                        display: flex;
-                        flex-direction: column;
-                      `}
-                    >
-                      ユーザーページ
-                    </div>
-                  </MenuItem>
-                  <MenuItem onClick={handleGotoAccount}>
-                    アカウント設定
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
-                </Menu>
-              </>
+                    </MenuItem>
+                    <MenuItem onClick={handleGotoAccount}>
+                      アカウント設定
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>ログアウト</MenuItem>
+                  </Menu>
+                </>
+              ) : (
+                <Button color="inherit" onClick={tryLogin}>
+                  <PersonIcon />
+                  ログイン
+                </Button>
+              )
             ) : (
-              <Button color="inherit" onClick={tryLogin}>
-                <PersonIcon />
-                ログイン
-              </Button>
+              <>loading...</>
             )}
           </Toolbar>
         </AppBar>

@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Navbar giftBadge={gifts?.length} />
-      {!user?.screen_name && (
+      {loaded && !user?.screen_name && (
         <Alert
           severity="info"
           action={
