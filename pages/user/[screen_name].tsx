@@ -10,11 +10,14 @@ import { Theme } from "../../src/components/Theme";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const UserPage: React.FC = () => {
   const router = useRouter();
   const theme = useTheme<Theme>();
-  const { data: user, err } = useUser(router.query.screen_name as string);
+  const { data: user, loaded, err } = useUser(
+    router.query.screen_name as string
+  );
 
   return (
     <>
@@ -50,7 +53,12 @@ const UserPage: React.FC = () => {
                     `}
                   >
                     <Typography>
-                      <FontAwesomeIcon icon={faCrown} />
+                      <FontAwesomeIcon
+                        icon={faCrown}
+                        css={css`
+                          height: 1em;
+                        `}
+                      />
                       <span
                         css={css`
                           margin: 0 0.4em;
@@ -58,27 +66,49 @@ const UserPage: React.FC = () => {
                       >
                         ジト目王国民
                       </span>
-                      <FontAwesomeIcon icon={faCrown} />
+                      <FontAwesomeIcon
+                        icon={faCrown}
+                        css={css`
+                          height: 1em;
+                        `}
+                      />
                     </Typography>
                   </div>
                 </Grid>
                 <Grid container item justify="center">
-                  <img
-                    src={user?.picture_url}
-                    decoding="async"
+                  <div
                     css={css`
-                      width: 128px;
-                      height: 128px;
-                      border-radius: 50%;
                       margin: 15px;
                     `}
-                  />
+                  >
+                    {loaded ? (
+                      <img
+                        src={user?.picture_url}
+                        decoding="async"
+                        css={css`
+                          width: 128px;
+                          height: 128px;
+                          border-radius: 50%;
+                        `}
+                      />
+                    ) : (
+                      <Skeleton variant="circle" width={128} height={128} />
+                    )}
+                  </div>
                 </Grid>
                 <Grid container item justify="center">
-                  <Typography variant="h5">{user?.display_name}</Typography>
+                  <Typography variant="h5">
+                    {loaded ? user?.display_name : <Skeleton width={198} />}
+                  </Typography>
                 </Grid>
                 <Grid container item justify="center">
-                  <Typography>@{user?.screen_name}</Typography>
+                  <Typography>
+                    {loaded ? (
+                      `@${user?.screen_name}`
+                    ) : (
+                      <Skeleton width={198} />
+                    )}
+                  </Typography>
                 </Grid>
               </Grid>
             </div>
