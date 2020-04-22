@@ -8,6 +8,8 @@ import { NumberBoard } from "../../src/components/NumberBoard";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../../src/components/Theme";
 import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCrown } from "@fortawesome/free-solid-svg-icons";
 
 const UserPage: React.FC = () => {
   const router = useRouter();
@@ -47,7 +49,17 @@ const UserPage: React.FC = () => {
                       margin-bottom: 1em;
                     `}
                   >
-                    <Typography>ジト目王国民</Typography>
+                    <Typography>
+                      <FontAwesomeIcon icon={faCrown} />
+                      <span
+                        css={css`
+                          margin: 0 0.4em;
+                        `}
+                      >
+                        ジト目王国民
+                      </span>
+                      <FontAwesomeIcon icon={faCrown} />
+                    </Typography>
                   </div>
                 </Grid>
                 <Grid container item justify="center">
