@@ -1,5 +1,5 @@
 import "ress";
-import React from "react";
+import React, { useEffect } from "react";
 import { Global, css } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { Theme } from "../src/components/Theme";
@@ -41,6 +41,13 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
 }) => {
   const ctx = useAuth();
   const userCtx = useMe(ctx.authToken);
+
+  useEffect(() => {
+    const jssStyles = document.querySelector("#jss-server-side");
+    if (jssStyles && jssStyles.parentElement) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
