@@ -20,6 +20,8 @@ import { FooterNavigation } from "../src/parts/FooterNavigation";
 import RestoreIcon from "@material-ui/icons/Restore";
 import { useRouter } from "next/router";
 import Alert from "@material-ui/lab/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -95,6 +97,10 @@ const Dashboard: React.FC = () => {
     router.push("/account");
   }, [router]);
 
+  const handleGotoRanking = useCallback(() => {
+    router.push("/ranking");
+  }, [router]);
+
   return (
     <>
       <Navbar giftBadge={gifts?.length} />
@@ -118,6 +124,12 @@ const Dashboard: React.FC = () => {
             justify-content: flex-end;
           `}
         >
+          <Button
+            startIcon={<FontAwesomeIcon icon={faSortAmountDown} />}
+            onClick={handleGotoRanking}
+          >
+            ランキング
+          </Button>
           <Button startIcon={<RestoreIcon />} onClick={handleGotoChangelog}>
             更新履歴
           </Button>

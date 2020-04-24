@@ -9,6 +9,10 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-24",
+      content: "みょんポイントランキングを実装しました。"
+    },
+    {
       date: "2020-04-22",
       content: "prerenderの見栄えを良くしました。"
     },
