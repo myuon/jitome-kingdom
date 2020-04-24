@@ -120,7 +120,7 @@ const RankingPage: React.FC = () => {
                           </Grid>
                         </Grid>
                       </TableCell>
-                      <TableCell align="right">{row.point}</TableCell>
+                      <TableCell align="right">{row.current}</TableCell>
                       <TableCell align="right">
                         {row.diff > 0 ? (
                           <span

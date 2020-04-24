@@ -4,8 +4,8 @@ interface RankingTopUser {
   user_id: string;
   screen_name?: string;
   display_name: string;
-  point: number;
   picture_url: string;
+  current: number;
   diff: number;
 }
 
