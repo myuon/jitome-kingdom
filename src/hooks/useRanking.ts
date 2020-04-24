@@ -6,7 +6,7 @@ interface RankingTopUser {
   display_name: string;
   point: number;
   picture_url: string;
-  diff?: number;
+  diff: number;
 }
 
 export const useRankingTop = (authToken: string) => {
