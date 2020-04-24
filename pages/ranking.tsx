@@ -35,6 +35,7 @@ const RankingPage: React.FC = () => {
 
       <main>
         <Typography variant="h6">みょんポイントランキング</Typography>
+        <Typography>ランキングはおよそ24時間ごとの更新です</Typography>
 
         <Grid container spacing={2} justify="space-evenly">
           <Grid item>
@@ -90,8 +91,17 @@ const RankingPage: React.FC = () => {
                               `}
                             />
                           </Grid>
-                          <Grid item>{row.display_name}</Grid>
-                          <Grid item>
+                          <Grid
+                            item
+                            css={css`
+                              margin-left: -0.25em;
+
+                              & > span {
+                                margin: 0 0.25em;
+                              }
+                            `}
+                          >
+                            <span>{row.display_name}</span>
                             {row.screen_name && (
                               <span
                                 css={css`
