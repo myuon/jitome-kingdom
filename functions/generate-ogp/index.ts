@@ -3,6 +3,7 @@ import { registerFont } from "canvas";
 import svg2img from "svg2img";
 import Image64 from "node-base64-image";
 import * as path from "path";
+import fetch from "node-fetch";
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1200" height="630" viewBox="0 0 1200 630">
     <defs>
@@ -68,15 +69,6 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1200" 
   .split("\n")
   .join("");
 
-/*
-const svg = [
-  '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="236" height="120" ',
-  'viewBox="0 0 236 120">',
-  '<rect x="14" y="23" width="200" height="50" fill="#55FF55" stroke="black" stroke-width="1" />',
-  "</svg>"
-].join("");
-*/
-
 const svg2imgP = (input: string) =>
   new Promise((resolve, reject) => {
     svg2img(input, (error, buffer) => {
@@ -99,24 +91,32 @@ const Image64P = (imageUrl: string) =>
     });
   });
 
+const API_ENDPOINT = "https://api-jitome.ramda.io";
+
 export default async (req: NowRequest, resp: NowResponse) => {
   registerFont(path.join("fonts", "NotoSansJP-Regular.otf"), {
     family: "NotoSansJP"
   });
 
   const screen_name = req.query.screen_name as string;
-  const picture_url = (await Image64P(
-    "https://jitome-kingdom-prod-storage.s3.amazonaws.com/public/e8d7f629-b962-4c31-bd4a-15a86b4c7d3d/0700aace-fb2a-4f91-a17b-fcd6ce12fd34"
-  )) as Buffer;
+  const result = await fetch(`${API_ENDPOINT}/users/${screen_name}`);
+  if (!result.ok) {
+    return resp.status(404).send("Not Found");
+  }
+
+  const { display_name, point, picture_url } = await result.json();
+
+  const picture = (await Image64P(picture_url)) as Buffer;
   const buf = await svg2imgP(
     svg
-      .replace("{screen_name}", screen_name)
+      .replace("{display_name}", display_name)
+      .replace("{screen_name}", "@" + screen_name)
+      .replace("{point}", point)
       .replace(
         "{picture_url}",
-        "data:image/png;base64," + picture_url.toString("base64")
+        "data:image/png;base64," + picture.toString("base64")
       )
   );
-  console.log(buf);
 
   resp.setHeader("Content-Type", "image/png");
   resp.status(200).send(buf);
