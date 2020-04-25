@@ -105,7 +105,7 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
           content="https://jitome.ramda.io/image/top_jitome.png"
           key="og-image"
         />
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content="summary" key="twitter-card" />
         <meta name="twitter:url" content="https://jitome.ramda.io" />
         <meta name="twitter:title" content="ジト目王国" />
         <meta

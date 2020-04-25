@@ -36,6 +36,11 @@ const UserPage: React.FC<User> = ({ screen_name, display_name, point }) => {
     <>
       <Head>
         <meta
+          name="twitter:card"
+          content="summary_large_image"
+          key="twitter-card"
+        />
+        <meta
           property="og:description"
           content={`ジト目王国 - ${display_name}さんは${point}みょんポイントを保持しています`}
           key="og-description"
