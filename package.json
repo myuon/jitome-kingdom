@@ -33,7 +33,8 @@
     "start": "next start",
     "typecheck": "tsc --project tsconfig.json #",
     "lint:ts": "eslint ./pages/**/*.tsx --cache",
-    "lint:fix:ts": "yarn lint:ts --fix"
+    "lint:fix:ts": "yarn lint:ts --fix",
+    "now-build": "cp canvas_lib64/*so.1 node_modules/canvas/build/Release/ && yarn build"
   },
   "husky": {
     "hooks": {
@@ -62,6 +63,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
-    "ress": "^2.0.4"
+    "ress": "^2.0.4",
+    "svg2img": "^0.6.1"
   }
 }
