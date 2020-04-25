@@ -9,6 +9,11 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-25",
+      content:
+        "ユーザーページにて、OGP画像としてジト目王国民のカードを生成するようにしました。"
+    },
+    {
       date: "2020-04-24",
       content: "みょんポイントランキングを実装しました。"
     },
