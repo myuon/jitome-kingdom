@@ -1452,6 +1452,13 @@
   resolved "https://registry.yarnpkg.com/@next/polyfill-nomodule/-/polyfill-nomodule-9.3.2.tgz#f8e282fdeb448eb6b70bcc18c5d46c911072687a"
   integrity sha512-kEa7v3trZmW6iWeTJrhg+ZsE9njae7mLkgyZB5M1r975JHr5PQ69B5aX7hrEAj7aAJYvCKETgAczx4gGR8MOzQ==
 
+"@now/node@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@now/node/-/node-1.5.1.tgz#e0d559ea5d1efaa5cc8a7c35208aa6ad01634ab2"
+  integrity sha512-2nXhdqo4aNShHuTwbdQmZQX4jYXAoI85+FTPStD5DZVC3kbSS8m5RDxJu7Op7ffBPwIu8Nmp6ukjXct3Abad7g==
+  dependencies:
+    "@types/node" "*"
+
 "@rollup/plugin-node-resolve@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.1.tgz#8c6e59c4b28baf9d223028d0e450e06a485bb2b7"
