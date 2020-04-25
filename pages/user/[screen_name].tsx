@@ -11,16 +11,39 @@ import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Skeleton from "@material-ui/lab/Skeleton";
+import Head from "next/head";
 
 const UserPage: React.FC = () => {
   const router = useRouter();
   const theme = useTheme<Theme>();
-  const { data: user, loaded, err } = useUser(
-    router.query.screen_name as string
-  );
+  const screen_name = router.query.screen_name as string;
+  const { data: user, loaded, err } = useUser(screen_name);
 
   return (
     <>
+      <Head>
+        <meta
+          property="og:description"
+          content={`ジト目王国 - ${user?.display_name}さんは${user?.point}みょんポイントを保持しています`}
+          key="og-description"
+        />
+        <meta
+          property="twitter:description"
+          content={`ジト目王国 - ${user?.display_name}さんは${user?.point}みょんポイントを保持しています`}
+          key="twitter-description"
+        />
+        <meta
+          property="og:image"
+          content={`/functions/generate-ogp/index?screen_name=${screen_name}`}
+          key="og-image"
+        />
+        <meta
+          name="twitter:image"
+          content={`/functions/generate-ogp/index?screen_name=${screen_name}`}
+          key="twitter-image"
+        />
+      </Head>
+
       <Navbar />
 
       <main>
