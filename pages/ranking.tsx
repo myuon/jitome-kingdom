@@ -73,7 +73,11 @@ const RankingTable: React.FC<{ data: RankingUser[] }> = ({ data }) => {
                   <></>
                 )}
               </TableCell>
-              <TableCell>
+              <TableCell
+                css={css`
+                  width: 350px;
+                `}
+              >
                 <Grid container alignItems="center" spacing={1}>
                   <Grid item>
                     <Avatar
@@ -156,7 +160,7 @@ const RankingPage: React.FC = () => {
           <Typography>ランキングはおよそ24時間ごとの更新です</Typography>
         </header>
 
-        <Grid container justify="space-evenly">
+        <Grid container justify="space-evenly" spacing={5}>
           <Grid item>
             <Typography>ポイント所持数ランキング</Typography>
             <RankingTable data={top ?? []} />
