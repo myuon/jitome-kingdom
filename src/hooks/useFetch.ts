@@ -43,6 +43,7 @@ export const fetcher = async <T>(
     }
 
     const resp = await fetch(url, obj);
+    console.log(resp);
 
     if (!resp.ok) {
       throw new Error(`${resp.status}: ${await resp.text()}`);

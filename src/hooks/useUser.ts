@@ -1,7 +1,7 @@
 import { useFetch, fetcher } from "./useFetch";
 import { createContext, useContext } from "react";
 
-interface User {
+export interface User {
   id: string;
   screen_name?: string;
   display_name: string;
