@@ -8,6 +8,23 @@
         "cache-control": "public, max-age=43200, immutable",
         "Service-Worker-Allowed": "/"
       }
+    },
+    {
+      "src": "^/functions/generate-ogp(.+)",
+      "dest": "/functions/generate-ogp/index.ts"
+    }
+  ],
+  "builds": [
+    {
+      "src": "next.config.js",
+      "use": "@now/next"
+    },
+    {
+      "src": "functions/generate-ogp/index.ts",
+      "use": "@now/node",
+      "config": {
+        "includeFiles": ["fonts/*"]
+      }
     }
   ],
   "github": {

@@ -2,25 +2,61 @@ import React from "react";
 import { Navbar } from "../../src/parts/Navbar";
 import { FooterNavigation } from "../../src/parts/FooterNavigation";
 import { Paper, Grid, Typography } from "@material-ui/core";
-import { useUser } from "../../src/hooks/useUser";
+import { useUser, User } from "../../src/hooks/useUser";
 import { css } from "@emotion/core";
 import { NumberBoard } from "../../src/components/NumberBoard";
 import { useTheme } from "emotion-theming";
 import { Theme } from "../../src/components/Theme";
-import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrown } from "@fortawesome/free-solid-svg-icons";
 import Skeleton from "@material-ui/lab/Skeleton";
+import Head from "next/head";
+import { GetServerSideProps } from "next";
+import fetch from "node-fetch";
 
-const UserPage: React.FC = () => {
-  const router = useRouter();
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const screen_name = ctx.query.screen_name as string;
+
+  // data fetch in pre-render
+  // これやめたい
+  const resp = (await (
+    await fetch(`${process.env.APP_ENDPOINT}/users/${screen_name}`, {})
+  ).json()) as User;
+
+  return {
+    props: resp
+  };
+};
+
+const UserPage: React.FC<User> = ({ screen_name, display_name, point }) => {
   const theme = useTheme<Theme>();
-  const { data: user, loaded, err } = useUser(
-    router.query.screen_name as string
-  );
+  const { data: user, loaded, err } = useUser(screen_name!);
 
   return (
     <>
+      <Head>
+        <meta
+          property="og:description"
+          content={`ジト目王国 - ${display_name}さんは${point}みょんポイントを保持しています`}
+          key="og-description"
+        />
+        <meta
+          property="twitter:description"
+          content={`ジト目王国 - ${display_name}さんは${point}みょんポイントを保持しています`}
+          key="twitter-description"
+        />
+        <meta
+          property="og:image"
+          content={`https://jitome.ramda.io/functions/generate-ogp/index?screen_name=${screen_name}`}
+          key="og-image"
+        />
+        <meta
+          name="twitter:image"
+          content={`https://jitome.ramda.io/functions/generate-ogp/index?screen_name=${screen_name}`}
+          key="twitter-image"
+        />
+      </Head>
+
       <Navbar />
 
       <main>

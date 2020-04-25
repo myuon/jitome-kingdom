@@ -33,7 +33,8 @@
     "start": "next start",
     "typecheck": "tsc --project tsconfig.json #",
     "lint:ts": "eslint ./pages/**/*.tsx --cache",
-    "lint:fix:ts": "yarn lint:ts --fix"
+    "lint:fix:ts": "yarn lint:ts --fix",
+    "now-build": "cp canvas_lib64/*so.1 node_modules/canvas/build/Release/ && yarn build"
   },
   "husky": {
     "hooks": {
@@ -55,12 +56,18 @@
     "@material-ui/core": "^4.9.5",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.46",
+    "@now/node": "^1.5.1",
+    "@types/node-fetch": "^2.5.7",
+    "canvas": "^2.6.1",
     "emotion-theming": "^10.0.27",
     "next": "^9.3.2",
     "next-offline": "^5.0.0",
+    "node-base64-image": "^1.0.7",
+    "node-fetch": "^2.6.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
-    "ress": "^2.0.4"
+    "ress": "^2.0.4",
+    "svg2img": "^0.6.1"
   }
 }
