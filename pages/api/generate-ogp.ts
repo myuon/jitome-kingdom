@@ -1,11 +1,12 @@
 import { NowRequest, NowResponse } from "@now/node";
 import svg2img from "svg2img";
+import Image64 from "node-base64-image";
 
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1200" height="630" viewBox="0 0 1200 630">
     <defs>
         <rect id="avatar" x="50%" y="35" width="160" height="160" rx="50%" fill="transparent" />
         <clipPath id="clip">
-            <use xlink:href="#avatar">
+            <use xlink:href="#avatar" />
         </clipPath>
     </defs>
 
@@ -19,7 +20,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
         width="160"
         height="160"
         transform="translate(-80, 0)"
-        xlink:href="https://jitome-kingdom-prod-storage.s3.amazonaws.com/public/e8d7f629-b962-4c31-bd4a-15a86b4c7d3d/0700aace-fb2a-4f91-a17b-fcd6ce12fd34" />
+        href="{picture_url}" />
     <text
         x="50%"
         y="260"
@@ -61,7 +62,18 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
         {point}
     </text>
 </svg>
-`;
+`
+  .split("\n")
+  .join("");
+
+/*
+const svg = [
+  '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="236" height="120" ',
+  'viewBox="0 0 236 120">',
+  '<rect x="14" y="23" width="200" height="50" fill="#55FF55" stroke="black" stroke-width="1" />',
+  "</svg>"
+].join("");
+*/
 
 const svg2imgP = (input: string) =>
   new Promise((resolve, reject) => {
@@ -74,9 +86,31 @@ const svg2imgP = (input: string) =>
     });
   });
 
+const Image64P = (imageUrl: string) =>
+  new Promise((resolve, reject) => {
+    Image64.encode(imageUrl, {}, (err, base64) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(base64);
+    });
+  });
+
 export default async (req: NowRequest, resp: NowResponse) => {
   const screen_name = req.query.screen_name as string;
-  const buf = await svg2imgP(svg.replace("{screen_name}", screen_name));
+  const picture_url = (await Image64P(
+    "https://jitome-kingdom-prod-storage.s3.amazonaws.com/public/e8d7f629-b962-4c31-bd4a-15a86b4c7d3d/0700aace-fb2a-4f91-a17b-fcd6ce12fd34"
+  )) as Buffer;
+  const buf = await svg2imgP(
+    svg
+      .replace("{screen_name}", screen_name)
+      .replace(
+        "{picture_url}",
+        "data:image/png;base64," + picture_url.toString("base64")
+      )
+  );
+  console.log(buf);
 
   resp.setHeader("Content-Type", "image/png");
   resp.status(200).send(buf);
