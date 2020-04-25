@@ -1,6 +1,6 @@
 import { useFetch } from "./useFetch";
 
-interface RankingTopUser {
+export interface RankingUser {
   user_id: string;
   screen_name?: string;
   display_name: string;
@@ -10,18 +10,15 @@ interface RankingTopUser {
 }
 
 export const useRankingTop = (authToken: string) => {
-  return useFetch<RankingTopUser[]>(`${process.env.APP_ENDPOINT}/ranking/top`, {
+  return useFetch<RankingUser[]>(`${process.env.APP_ENDPOINT}/ranking/top`, {
     authToken,
     noRun: !authToken
   });
 };
 
 export const useRankingDiff = (authToken: string) => {
-  return useFetch<RankingTopUser[]>(
-    `${process.env.APP_ENDPOINT}/ranking/diff`,
-    {
-      authToken,
-      noRun: !authToken
-    }
-  );
+  return useFetch<RankingUser[]>(`${process.env.APP_ENDPOINT}/ranking/diff`, {
+    authToken,
+    noRun: !authToken
+  });
 };
