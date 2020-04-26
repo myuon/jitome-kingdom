@@ -7,6 +7,7 @@ import { useAuth, AuthProvider } from "../src/hooks/useAuth";
 import Head from "next/head";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
 import { useMe, UserProvider } from "../src/hooks/useUser";
+import { dom } from "@fortawesome/fontawesome-svg-core";
 
 const theme: Theme = {
   palette: {
@@ -134,6 +135,8 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
             >
               <Global
                 styles={css`
+                  ${dom.css()}
+
                   main {
                     max-width: 860px;
                     margin: auto;
