@@ -204,8 +204,10 @@ const Dashboard: React.FC = () => {
                     user?.point
                   }みょんポイントを保持しています！&url=${
                     user.screen_name
-                      ? `${window.origin}/user/${user.screen_name}`
-                      : `${window.origin}`
+                      ? `${window.origin}/user/${
+                          user.screen_name
+                        }?timestamp=${Math.floor(new Date().getTime() / 1000)}`
+                      : window.origin
                   }`}
                   variant="contained"
                 >
