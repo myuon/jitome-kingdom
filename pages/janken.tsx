@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useGift } from "../src/hooks/useGift";
 import { Navbar } from "../src/parts/Navbar";
@@ -26,13 +26,14 @@ import {
   faHandPeace,
   faHandPaper
 } from "@fortawesome/free-solid-svg-icons";
+import { tryNotify } from "../src/hooks/useNotification";
 
 const retryRunner = (handler: () => void, maxRetryCount: number) => {
   let waitTime = 1000;
   let counter = maxRetryCount;
   const fn = () => {
     counter--;
-    waitTime *= 2;
+    waitTime *= 1.2;
 
     if (counter < 0) {
       return;
@@ -69,7 +70,7 @@ const Janken: React.FC = () => {
 
     retryRunner(() => {
       forceReload();
-    }, 30);
+    }, 40);
   }, [authToken, setSnackbarOpen, selectedHand, forceReload, userReload]);
 
   const jankenAvailable = useMemo(() => {
@@ -82,6 +83,30 @@ const Janken: React.FC = () => {
   const handleChangeSelectedHand = useCallback((hand: string) => {
     setSelectedHand(hand);
   }, []);
+
+  const [notifyFlag, setNotifyFlag] = useState(false);
+  useEffect(() => {
+    // マッチング中状態に入ったらnotifyFlagを立てる
+    if (jankenEvents && jankenEvents.events[0].status === "ready") {
+      setNotifyFlag(true);
+    } else {
+      setNotifyFlag(false);
+    }
+  }, [jankenEvents]);
+
+  useEffect(() => {
+    // notifyFlagがtrueからfalseに変わったタイミングでのみ通知を出す
+    if (!notifyFlag && jankenEvents) {
+      const event = jankenEvents.events[0];
+
+      tryNotify({
+        title: "じゃんけんの結果が出ました - ジト目王国",
+        description: `${displayJankenHand(
+          event.hand
+        )}を出して${displayJankenStatus(event.status)}でした！`
+      });
+    }
+  }, [notifyFlag]);
 
   return (
     <>

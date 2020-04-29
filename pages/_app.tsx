@@ -8,6 +8,7 @@ import Head from "next/head";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core";
 import { useMe, UserProvider } from "../src/hooks/useUser";
 import { dom } from "@fortawesome/fontawesome-svg-core";
+import { OfflineSupport } from "../src/parts/OfflineSupport";
 
 const theme: Theme = {
   palette: {
@@ -189,6 +190,8 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
           </AuthProvider>
         </MuiThemeProvider>
       </ThemeProvider>
+
+      <OfflineSupport />
     </>
   );
 };
