@@ -3,7 +3,14 @@ import { useGift } from "../src/hooks/useGift";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { Navbar } from "../src/parts/Navbar";
 import { FooterNavigation } from "../src/parts/FooterNavigation";
-import { Typography } from "@material-ui/core";
+import {
+  Typography,
+  Grid,
+  Table,
+  TableRow,
+  TableCell,
+  TableBody
+} from "@material-ui/core";
 import { css } from "@emotion/core";
 
 export const dataChangelog = {
@@ -60,7 +67,7 @@ export const dataChangelog = {
         "PWAに対応しました。ホーム画面に追加していつでもみょんポイントを確認してください！"
     },
     {
-      date: "2020-03-29_2",
+      date: "2020-03-29",
       content:
         "プレゼント機能を追加しました。3/26の緊急メンテナンスのお詫びとして15ポイントを全ユーザーに配布しました。"
     },
@@ -95,13 +102,31 @@ const Changelog: React.FC = props => {
           }
         `}
       >
-        <Typography variant="h6">変更履歴</Typography>
-
-        {dataChangelog.history.map((item, index) => (
-          <Typography key={index}>
-            {item.date}: {item.content}
-          </Typography>
-        ))}
+        <Grid container direction="column" spacing={2}>
+          <Grid item>
+            <Typography variant="h3">変更履歴</Typography>
+          </Grid>
+          <Grid item>
+            <Table>
+              <TableBody>
+                {dataChangelog.history.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell
+                      css={css`
+                        white-space: nowrap;
+                      `}
+                    >
+                      {item.date}
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{item.content}</Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Grid>
+        </Grid>
       </main>
 
       <FooterNavigation giftBadge={gifts?.length} />

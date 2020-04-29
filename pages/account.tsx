@@ -19,7 +19,8 @@ import {
   Grid,
   InputAdornment,
   Snackbar,
-  IconButton
+  IconButton,
+  Container
 } from "@material-ui/core";
 import { css } from "@emotion/core";
 import CheckIcon from "@material-ui/icons/Check";
@@ -248,133 +249,133 @@ const Account = () => {
       <Navbar />
 
       <main>
-        <Typography variant="h6">アカウント設定</Typography>
-
         {loaded && user ? (
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <Typography>アイコン</Typography>
-            </Grid>
-            <Grid container item justify="center">
-              <div
-                css={css`
-                  position: relative;
-                  width: 128px;
-                  height: 128px;
-                `}
-              >
+          <Container maxWidth="xs">
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <Typography>アイコン</Typography>
+              </Grid>
+              <Grid container item justify="center">
                 <div
                   css={css`
-                    position: absolute;
-                    width: inherit;
-                    height: inherit;
-                    background-color: rgba(0, 0, 0, 0.3);
-                    border-radius: 50%;
+                    position: relative;
+                    width: 128px;
+                    height: 128px;
                   `}
-                />
-                <input
-                  accept="image/*"
-                  type="file"
-                  css={css`
-                    display: none;
-                  `}
-                  ref={iconFileAnchor}
-                  onChange={handleUploadImage}
-                />
-                <IconButton
-                  component="span"
-                  css={css`
-                    position: absolute;
-                    width: inherit;
-                    height: inherit;
-                    font-size: 48px;
-                    color: white;
-                  `}
-                  onClick={handleFileDialog}
                 >
-                  <PublishIcon fontSize="inherit" />
-                </IconButton>
-                <img
-                  src={pictureUrl}
-                  css={css`
-                    width: inherit;
-                    height: inherit;
-                    border-radius: 50%;
-                  `}
-                />
-              </div>
-            </Grid>
-            <Grid item>
-              <TextField
-                name="display_name"
-                label="表示名"
-                margin="normal"
-                placeholder="表示名を入力"
-                fullWidth
-                value={displayName}
-                onChange={handleChangeDisplayName}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <TextField
-                name="screen_name"
-                label="ユーザーID"
-                margin="normal"
-                placeholder="英数字とアンダーバーのみ"
-                fullWidth
-                value={userId ?? ""}
-                onChange={handleChangeUserId}
-                error={!!userIdError}
-                helperText={userIdError}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">@</InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      {userIdAvailability ? (
-                        <CheckIcon style={{ color: green[500] }} />
-                      ) : (
-                        <ErrorIcon color="error" />
-                      )}
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                color="primary"
-                variant="contained"
-                disabled={Boolean(userIdError)}
-                onClick={handleSubmit}
-              >
-                送信
-              </Button>
-              <Snackbar
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left"
-                }}
-                open={snackbarOpen}
-                onClose={handleSnackbarClose}
-                message={"プロフィールを更新しました"}
-                action={
+                  <div
+                    css={css`
+                      position: absolute;
+                      width: inherit;
+                      height: inherit;
+                      background-color: rgba(0, 0, 0, 0.3);
+                      border-radius: 50%;
+                    `}
+                  />
+                  <input
+                    accept="image/*"
+                    type="file"
+                    css={css`
+                      display: none;
+                    `}
+                    ref={iconFileAnchor}
+                    onChange={handleUploadImage}
+                  />
                   <IconButton
-                    size="small"
-                    color="inherit"
-                    onClick={handleSnackbarClose}
+                    component="span"
+                    css={css`
+                      position: absolute;
+                      width: inherit;
+                      height: inherit;
+                      font-size: 48px;
+                      color: white;
+                    `}
+                    onClick={handleFileDialog}
                   >
-                    <CloseIcon fontSize="small" />
+                    <PublishIcon fontSize="inherit" />
                   </IconButton>
-                }
-              />
+                  <img
+                    src={pictureUrl}
+                    css={css`
+                      width: inherit;
+                      height: inherit;
+                      border-radius: 50%;
+                    `}
+                  />
+                </div>
+              </Grid>
+              <Grid item>
+                <TextField
+                  name="display_name"
+                  label="表示名"
+                  margin="normal"
+                  placeholder="表示名を入力"
+                  fullWidth
+                  value={displayName}
+                  onChange={handleChangeDisplayName}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                />
+                <TextField
+                  name="screen_name"
+                  label="ユーザーID"
+                  margin="normal"
+                  placeholder="英数字とアンダーバーのみ"
+                  fullWidth
+                  value={userId ?? ""}
+                  onChange={handleChangeUserId}
+                  error={!!userIdError}
+                  helperText={userIdError}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">@</InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        {userIdAvailability ? (
+                          <CheckIcon style={{ color: green[500] }} />
+                        ) : (
+                          <ErrorIcon color="error" />
+                        )}
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              <Grid container item justify="flex-end">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  disabled={Boolean(userIdError)}
+                  onClick={handleSubmit}
+                >
+                  送信
+                </Button>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left"
+                  }}
+                  open={snackbarOpen}
+                  onClose={handleSnackbarClose}
+                  message={"プロフィールを更新しました"}
+                  action={
+                    <IconButton
+                      size="small"
+                      color="inherit"
+                      onClick={handleSnackbarClose}
+                    >
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
+                  }
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          </Container>
         ) : (
           <Typography>loading...</Typography>
         )}

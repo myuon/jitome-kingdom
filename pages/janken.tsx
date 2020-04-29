@@ -88,57 +88,65 @@ const Janken: React.FC = () => {
       <Navbar giftBadge={gifts?.length} />
 
       <main>
-        <Grid container spacing={2} direction="column">
-          <Grid item>
-            <Typography variant="h2">みょんポイントじゃんけん</Typography>
-            <Typography>
-              みょんポイントじゃんけんとは、みょんポイントを賭けて行うじゃんけんです。じゃんけんの手を決めて送信すると、マッチングが行われ、勝てば相手のポイントがもらえ負ければポイントは没収となります。
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Typography variant="h3">じゃんけんで遊ぶ！</Typography>
-            <Typography variant="caption">
-              注意: マッチング中の場合新たにじゃんけんすることは出来ません。
-            </Typography>
-            <Grid container spacing={2} direction="column">
-              <Grid item>
-                <RadioButtonGroup
-                  datalist={[
-                    {
-                      label: "グー",
-                      startIcon: <FontAwesomeIcon icon={faHandRock} />,
-                      key: "rock"
-                    },
-                    {
-                      label: "チョキ",
-                      startIcon: <FontAwesomeIcon icon={faHandPeace} />,
-                      key: "scissors"
-                    },
-                    {
-                      label: "パー",
-                      startIcon: <FontAwesomeIcon icon={faHandPaper} />,
-                      key: "paper"
-                    }
-                  ]}
-                  onChange={handleChangeSelectedHand}
-                  disabled={!jankenAvailable}
-                />
-              </Grid>
-              <Grid item>
-                <Button
-                  color="primary"
-                  variant="contained"
-                  onClick={handleSubmitJanken}
-                  disabled={!selectedHand || !jankenAvailable}
-                >
-                  5 みょんポイント払ってじゃんけん！
-                </Button>
-              </Grid>
+        <Grid container spacing={4} direction="column">
+          <Grid container item spacing={1}>
+            <Grid item>
+              <Typography variant="h3">みょんポイントじゃんけん</Typography>
+            </Grid>
+            <Grid item>
+              <Typography>
+                みょんポイントじゃんけんとは、みょんポイントを賭けて行うじゃんけんです。じゃんけんの手を決めて送信すると、マッチングが行われ、勝てば相手のポイントがもらえ負ければポイントは没収となります。
+              </Typography>
             </Grid>
           </Grid>
-          <Grid item>
-            <Typography variant="h3">直近のじゃんけん履歴</Typography>
-            <Grid container spacing={2} direction="column">
+          <Grid container item spacing={1} direction="column">
+            <Grid item>
+              <Typography variant="h3">じゃんけんで遊ぶ！</Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="caption">
+                注意: マッチング中の場合新たにじゃんけんすることは出来ません。
+              </Typography>
+            </Grid>
+            <Grid item>
+              <RadioButtonGroup
+                datalist={[
+                  {
+                    label: "グー",
+                    startIcon: <FontAwesomeIcon icon={faHandRock} />,
+                    key: "rock"
+                  },
+                  {
+                    label: "チョキ",
+                    startIcon: <FontAwesomeIcon icon={faHandPeace} />,
+                    key: "scissors"
+                  },
+                  {
+                    label: "パー",
+                    startIcon: <FontAwesomeIcon icon={faHandPaper} />,
+                    key: "paper"
+                  }
+                ]}
+                onChange={handleChangeSelectedHand}
+                disabled={!jankenAvailable}
+              />
+            </Grid>
+            <Grid item>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleSubmitJanken}
+                disabled={!selectedHand || !jankenAvailable}
+              >
+                5 みょんポイント払ってじゃんけん！
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid container item spacing={1}>
+            <Grid item>
+              <Typography variant="h3">直近のじゃんけん履歴</Typography>
+            </Grid>
+            <Grid container item spacing={2} direction="column">
               {jankenEvents?.events.map(event => (
                 <Grid item key={event.id}>
                   {event.status === "ready" ? (

@@ -72,13 +72,13 @@ const Index: React.FC = props => {
               <Grid
                 item
                 css={css`
-                  margin-right: 0.5em;
+                  margin-right: 0.1em;
                 `}
               >
                 <HistoryIcon />
               </Grid>
               <Grid item>
-                <Typography variant="h6">最新のサービス更新履歴</Typography>
+                <Typography variant="h3">最新のサービス更新履歴</Typography>
               </Grid>
             </Grid>
           </header>

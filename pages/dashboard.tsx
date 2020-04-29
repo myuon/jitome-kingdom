@@ -22,6 +22,7 @@ import { useRouter } from "next/router";
 import Alert from "@material-ui/lab/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortAmountDown } from "@fortawesome/free-solid-svg-icons";
+import { faTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const ResultDialog: React.FC<{
   obtained: number;
@@ -118,28 +119,22 @@ const Dashboard: React.FC = () => {
       )}
 
       <main>
-        <div
-          css={css`
-            display: flex;
-            justify-content: flex-end;
-          `}
-        >
-          <Button
-            startIcon={<FontAwesomeIcon icon={faSortAmountDown} />}
-            onClick={handleGotoRanking}
-          >
-            ランキング
-          </Button>
-          <Button startIcon={<RestoreIcon />} onClick={handleGotoChangelog}>
-            更新履歴
-          </Button>
-        </div>
+        <Grid container justify="flex-end">
+          <Grid item>
+            <Button
+              startIcon={<FontAwesomeIcon icon={faSortAmountDown} />}
+              onClick={handleGotoRanking}
+            >
+              ランキング
+            </Button>
+            <Button startIcon={<RestoreIcon />} onClick={handleGotoChangelog}>
+              更新履歴
+            </Button>
+          </Grid>
+        </Grid>
         {loaded && user ? (
           <div
             css={css`
-              display: flex;
-              flex-direction: column;
-
               & > div:not(:first-of-type) {
                 margin-top: 1em;
               }
@@ -158,13 +153,15 @@ const Dashboard: React.FC = () => {
                   />
                 </div>
                 {gacha?.latest && (
-                  <p>
+                  <Typography>
                     最後にガチャを引いた日:
                     {new Date(gacha.latest.created_at * 1000).toLocaleString()}
-                  </p>
+                  </Typography>
                 )}
+                <Typography variant="caption">
+                  現在のみょんポイントガチャは毎日0時更新です
+                </Typography>
               </Grid>
-
               <Grid item>
                 {gachaLoaded && gacha ? (
                   <Button
@@ -182,9 +179,6 @@ const Dashboard: React.FC = () => {
                   <>loading...</>
                 )}
               </Grid>
-              <Grid item>
-                <small>現在のみょんポイントガチャは毎日0時更新です</small>
-              </Grid>
               {gachaError && (
                 <Grid item>
                   <Typography color="error">
@@ -196,7 +190,9 @@ const Dashboard: React.FC = () => {
 
             <Grid container direction="column" spacing={1}>
               <Grid item>
-                <p>みょんポイントをみんなとシェアしましょう！</p>
+                <Typography>
+                  みょんポイントをみんなとシェアしましょう！
+                </Typography>
               </Grid>
               <Grid item>
                 <Button
@@ -210,6 +206,8 @@ const Dashboard: React.FC = () => {
                       : window.origin
                   }`}
                   variant="contained"
+                  startIcon={<FontAwesomeIcon icon={faTwitter} />}
+                  color="inherit"
                 >
                   ツイート
                 </Button>
