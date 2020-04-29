@@ -1,10 +1,9 @@
 import React, { useCallback } from "react";
-import { Button, Typography, Grid } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { css } from "@emotion/core";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useRouter } from "next/router";
 import { Navbar } from "../src/parts/Navbar";
-import HistoryIcon from "@material-ui/icons/History";
 import { dataChangelog } from "./changelog";
 
 const Index: React.FC = props => {
@@ -68,19 +67,7 @@ const Index: React.FC = props => {
           `}
         >
           <header>
-            <Grid container direction="row" alignItems="center">
-              <Grid
-                item
-                css={css`
-                  margin-right: 0.1em;
-                `}
-              >
-                <HistoryIcon />
-              </Grid>
-              <Grid item>
-                <Typography variant="h3">最新のサービス更新履歴</Typography>
-              </Grid>
-            </Grid>
+            <Typography variant="h3">最新のサービス更新履歴</Typography>
           </header>
           {dataChangelog.history.slice(0, 3).map((history, index) => (
             <Typography key={index}>
