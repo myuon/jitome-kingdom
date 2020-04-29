@@ -53,7 +53,7 @@ const useTimer = () => {
       }
 
       handler();
-      setTimer(setInterval(fn, waitTime));
+      setTimer(setTimeout(fn, waitTime));
     };
 
     fn();

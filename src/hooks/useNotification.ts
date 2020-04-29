@@ -18,5 +18,9 @@ export const tryNotify = ({
   }
 
   const notification = new Notification(title, { body: description });
-  return notification;
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      notification.close();
+    }
+  });
 };
