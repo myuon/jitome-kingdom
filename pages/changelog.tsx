@@ -16,6 +16,11 @@ import { css } from "@emotion/core";
 export const dataChangelog = {
   history: [
     {
+      date: "2020-04-30",
+      content:
+        "じゃんけん結果が通知されるようになりました。ぜひ通知をオンにしてください！"
+    },
+    {
       date: "2020-04-25",
       content: "前日との差分を使ったポイント差分ランキングを追加しました。"
     },
