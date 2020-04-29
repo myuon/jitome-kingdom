@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState, useEffect } from "react";
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useRef
+} from "react";
 import { useAuthCtx } from "../src/hooks/useAuth";
 import { useGift } from "../src/hooks/useGift";
 import { Navbar } from "../src/parts/Navbar";
@@ -28,22 +34,41 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { tryNotify } from "../src/hooks/useNotification";
 
-const retryRunner = (handler: () => void, maxRetryCount: number) => {
-  let waitTime = 1000;
-  let counter = maxRetryCount;
-  const fn = () => {
-    counter--;
-    waitTime *= 1.2;
-
-    if (counter < 0) {
-      return;
+const useTimer = () => {
+  const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const cancelTimer = useCallback(() => {
+    if (timer) {
+      clearTimeout(timer);
     }
+  }, [timer]);
+  const start = useCallback((handler: () => void, maxRetryCount: number) => {
+    let waitTime = 1000;
+    let counter = maxRetryCount;
+    const fn = () => {
+      counter--;
+      waitTime *= 1.3;
 
-    handler();
-    setTimeout(fn, waitTime);
-  };
+      if (counter < 0) {
+        return;
+      }
 
-  setTimeout(fn, waitTime);
+      handler();
+      setTimer(setInterval(fn, waitTime));
+    };
+
+    fn();
+  }, []);
+
+  return [start, cancelTimer] as const;
+};
+
+const usePrevious = (value: any) => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+
+  return ref.current;
 };
 
 const Janken: React.FC = () => {
@@ -57,6 +82,7 @@ const Janken: React.FC = () => {
     setSnackbarOpen(false);
   }, []);
 
+  const [jankenSyncTimer, clearJankenSyncTimer] = useTimer();
   const [selectedHand, setSelectedHand] = useState<string>();
   const handleSubmitJanken = useCallback(async () => {
     if (!selectedHand) return;
@@ -68,10 +94,10 @@ const Janken: React.FC = () => {
     forceReload();
     userReload();
 
-    retryRunner(() => {
+    jankenSyncTimer(() => {
       forceReload();
-    }, 40);
-  }, [authToken, setSnackbarOpen, selectedHand, forceReload, userReload]);
+    }, 30);
+  }, [selectedHand, authToken, forceReload, userReload, jankenSyncTimer]);
 
   const jankenAvailable = useMemo(() => {
     return (
@@ -85,6 +111,7 @@ const Janken: React.FC = () => {
   }, []);
 
   const [notifyFlag, setNotifyFlag] = useState(false);
+  const previousNotifyFlag = usePrevious(notifyFlag);
   useEffect(() => {
     // マッチング中状態に入ったらnotifyFlagを立てる
     if (jankenEvents && jankenEvents.events[0].status === "ready") {
@@ -96,7 +123,7 @@ const Janken: React.FC = () => {
 
   useEffect(() => {
     // notifyFlagがtrueからfalseに変わったタイミングでのみ通知を出す
-    if (!notifyFlag && jankenEvents) {
+    if (previousNotifyFlag && !notifyFlag && jankenEvents) {
       const event = jankenEvents.events[0];
 
       tryNotify({
@@ -105,8 +132,11 @@ const Janken: React.FC = () => {
           event.hand
         )}を出して${displayJankenStatus(event.status)}でした！`
       });
+
+      // これタイミングによってはtimerの切り替わりと重なって作動しないケースがありうる気がする…
+      clearJankenSyncTimer();
     }
-  }, [notifyFlag]);
+  }, [notifyFlag, clearJankenSyncTimer, jankenEvents, previousNotifyFlag]);
 
   return (
     <>
