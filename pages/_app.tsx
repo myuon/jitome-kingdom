@@ -42,6 +42,7 @@ export const muiTheme = createMuiTheme({
     },
     h3: {
       fontSize: "1.5rem",
+      fontWeight: 500,
       lineHeight: 1.5,
       letterSpacing: "-0.025em"
     },
@@ -62,7 +63,8 @@ export const muiTheme = createMuiTheme({
     button: {
       fontSize: "0.85rem",
       fontWeight: 500
-    }
+    },
+    fontFamily: "'Noto Sans JP', sans-serif"
   }
 });
 
@@ -165,6 +167,7 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
             >
               <Global
                 styles={css`
+                  @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap");
                   ${dom.css()}
 
                   main {

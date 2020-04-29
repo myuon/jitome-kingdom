@@ -84,7 +84,7 @@ const UserPage: React.FC<User> = ({ screen_name, display_name, point }) => {
                 font-weight: bold;
               `}
             >
-              <Grid container direction="column">
+              <Grid container direction="column" spacing={1}>
                 <Grid container item justify="center">
                   <div
                     css={css`
@@ -138,7 +138,7 @@ const UserPage: React.FC<User> = ({ screen_name, display_name, point }) => {
                   </div>
                 </Grid>
                 <Grid container item justify="center">
-                  <Typography variant="h5">
+                  <Typography variant="h3">
                     {loaded ? user?.display_name : <Skeleton width={198} />}
                   </Typography>
                 </Grid>
