@@ -90,13 +90,13 @@ const Janken: React.FC = () => {
       <main>
         <Grid container spacing={2} direction="column">
           <Grid item>
-            <Typography variant="h6">みょんポイントじゃんけん</Typography>
+            <Typography variant="h2">みょんポイントじゃんけん</Typography>
             <Typography>
               みょんポイントじゃんけんとは、みょんポイントを賭けて行うじゃんけんです。じゃんけんの手を決めて送信すると、マッチングが行われ、勝てば相手のポイントがもらえ負ければポイントは没収となります。
             </Typography>
           </Grid>
           <Grid item>
-            <Typography variant="h6">じゃんけんで遊ぶ！</Typography>
+            <Typography variant="h3">じゃんけんで遊ぶ！</Typography>
             <Typography variant="caption">
               注意: マッチング中の場合新たにじゃんけんすることは出来ません。
             </Typography>
@@ -137,7 +137,7 @@ const Janken: React.FC = () => {
             </Grid>
           </Grid>
           <Grid item>
-            <Typography variant="h6">直近のじゃんけん履歴</Typography>
+            <Typography variant="h3">直近のじゃんけん履歴</Typography>
             <Grid container spacing={2} direction="column">
               {jankenEvents?.events.map(event => (
                 <Grid item key={event.id}>

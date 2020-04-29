@@ -19,7 +19,7 @@ const theme: Theme = {
   }
 };
 
-const muiTheme = createMuiTheme({
+export const muiTheme = createMuiTheme({
   palette: {
     primary: {
       main: theme.palette.primary.base,
@@ -27,11 +27,41 @@ const muiTheme = createMuiTheme({
       dark: theme.palette.primary.dark
     }
   },
-  props: {
-    MuiTypography: {
-      style: {
-        lineHeight: 1.8
-      }
+  typography: {
+    h1: {
+      fontSize: "2rem",
+      fontWeight: 500,
+      lineHeight: 1.75,
+      letterSpacing: "-0.035em"
+    },
+    h2: {
+      fontSize: "1.65rem",
+      fontWeight: 500,
+      lineHeight: 1.6,
+      letterSpacing: "-0.03em"
+    },
+    h3: {
+      fontSize: "1.5rem",
+      lineHeight: 1.5,
+      letterSpacing: "-0.025em"
+    },
+    h4: {
+      fontSize: "1.25rem",
+      lineHeight: 1.5,
+      letterSpacing: "-0.02em"
+    },
+    body1: {
+      lineHeight: 1.7,
+      letterSpacing: "0.05em"
+    },
+    caption: {
+      fontSize: "0.85rem",
+      lineHeight: 1.75,
+      letterSpacing: "0.075em"
+    },
+    button: {
+      fontSize: "0.85rem",
+      fontWeight: 500
     }
   }
 });
