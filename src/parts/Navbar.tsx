@@ -91,7 +91,9 @@ export const Navbar: React.FC<{ giftBadge?: number }> = props => {
             >
               <Link href={isAuthenticated ? "/dashboard" : "/"}>
                 <a>
-                  <Typography variant="h6">Jitome Kingdom</Typography>
+                  <Typography variant="h4" component="h1">
+                    Jitome Kingdom
+                  </Typography>
                 </a>
               </Link>
             </div>
