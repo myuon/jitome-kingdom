@@ -174,7 +174,7 @@ const MyApp: React.FC<{ Component: any; pageProps: any }> = ({
                   main {
                     max-width: 860px;
                     margin: auto;
-                    padding: 0.75em;
+                    padding: 1.5ex 1.5em;
                     color: #363636;
 
                     /* FooterNavigation分 もうちょっとマシな方法ないのか？ */
