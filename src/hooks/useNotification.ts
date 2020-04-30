@@ -13,14 +13,18 @@ export const tryNotify = ({
   title: string;
   description: string;
 }) => {
-  if (!checkCanNotify()) {
-    return;
-  }
-
-  const notification = new Notification(title, { body: description });
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-      notification.close();
+  try {
+    if (!checkCanNotify()) {
+      return;
     }
-  });
+
+    const notification = new Notification(title, { body: description });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") {
+        notification.close();
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };

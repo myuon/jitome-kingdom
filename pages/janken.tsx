@@ -123,7 +123,12 @@ const Janken: React.FC = () => {
 
   useEffect(() => {
     // notifyFlagがtrueからfalseに変わったタイミングでのみ通知を出す
-    if (previousNotifyFlag && !notifyFlag && jankenEvents) {
+    if (
+      previousNotifyFlag &&
+      !notifyFlag &&
+      jankenEvents &&
+      jankenEvents.events.length > 0
+    ) {
       const event = jankenEvents.events[0];
 
       tryNotify({
