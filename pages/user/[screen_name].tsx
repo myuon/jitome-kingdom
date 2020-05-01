@@ -52,12 +52,16 @@ const UserPage: React.FC<User> = ({ screen_name, display_name, point }) => {
         />
         <meta
           property="og:image"
-          content={`https://jitome.ramda.io/functions/generate-ogp/index?screen_name=${screen_name}`}
+          content={`https://jitome.ramda.io/functions/generate-ogp/index?screen_name=${screen_name}&timestamp=${Math.floor(
+            new Date().getTime() / 1000
+          )}`}
           key="og-image"
         />
         <meta
           name="twitter:image"
-          content={`https://jitome.ramda.io/functions/generate-ogp/index?screen_name=${screen_name}`}
+          content={`https://jitome.ramda.io/functions/generate-ogp/index?screen_name=${screen_name}&timestamp=${Math.floor(
+            new Date().getTime() / 1000
+          )}`}
           key="twitter-image"
         />
       </Head>
