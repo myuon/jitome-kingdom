@@ -119,5 +119,6 @@ export default async (req: NowRequest, resp: NowResponse) => {
   );
 
   resp.setHeader("Content-Type", "image/png");
+  resp.setHeader("Cache-Control", "no-cache");
   resp.status(200).send(buf);
 };
