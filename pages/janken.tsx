@@ -114,7 +114,11 @@ const Janken: React.FC = () => {
   const previousNotifyFlag = usePrevious(notifyFlag);
   useEffect(() => {
     // マッチング中状態に入ったらnotifyFlagを立てる
-    if (jankenEvents && jankenEvents.events[0].status === "ready") {
+    if (
+      jankenEvents &&
+      jankenEvents.events.length > 0 &&
+      jankenEvents.events[0].status === "ready"
+    ) {
       setNotifyFlag(true);
     } else {
       setNotifyFlag(false);
