@@ -71,7 +71,7 @@
     "@types/node-fetch": "^2.5.7",
     "canvas": "^2.6.1",
     "emotion-theming": "^10.0.27",
-    "next": "^9.3.2",
+    "next": "^11.1.0",
     "next-offline": "^5.0.0",
     "node-base64-image": "^1.0.7",
     "node-fetch": "^2.6.0",
