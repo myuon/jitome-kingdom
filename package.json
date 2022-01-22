@@ -74,7 +74,7 @@
     "next": "^9.3.2",
     "next-offline": "^5.0.0",
     "node-base64-image": "^1.0.7",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
